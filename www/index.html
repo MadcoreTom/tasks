@@ -3,6 +3,11 @@
 
 <head>
     <style>
+        html, body {
+            padding:0;
+            margin:0;
+        }
+
         svg {
             font-family: sans-serif;
             font-size:16px;
@@ -10,6 +15,37 @@
 
         .path-hover:hover {
             stroke: green;
+        }
+
+        .clickable {
+            cursor:pointer
+        }
+
+        .root {
+            width:100vw;
+            height:100vh;
+            overflow:hidden;
+        }
+
+        .main {
+            display: flex;
+            padding:0;
+            margin:0;
+            width:100vw;
+            height:100vh;
+            overflow:hidden;
+        }
+
+        .main>:first-child{
+            flex-grow:1;
+        }
+
+        .main>:last-child{
+            flex-grow:0;
+            border-left: 1px solid red;
+            width: 300px;
+            box-sizing: border-box;
+            padding:10px;
         }
     </style>
 
