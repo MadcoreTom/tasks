@@ -2,6 +2,9 @@ import * as React from "react";
 import { createRoot } from 'react-dom/client';
 import { DependencyClickable, DependencyPath } from "./diagram/dependency";
 import { Task, TaskType } from "./diagram/task";
+import { Provider } from 'react-redux'
+import store from "./state/store";
+import { ControlPanel } from "./components/controlpanel";
 
 
 const nodes: TaskType[] = [
@@ -35,10 +38,11 @@ function App() {
             {pathElems}
             {nodeElems}
         </svg>
-        <div>Control panel</div>
+        <ControlPanel/>
     </div>
 }
 
 
 
-createRoot(document.querySelector("#root") as HTMLElement).render(<App />,);
+createRoot(document.querySelector("#root") as HTMLElement)
+.render(<Provider store={store}><App /></Provider>,);

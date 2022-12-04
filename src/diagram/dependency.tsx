@@ -1,11 +1,14 @@
 import * as React from "react";
+import { useDispatch } from 'react-redux'
 import { TASK_HEIGHT, TASK_WIDTH } from "../constants";
 import { TaskType } from "./task"
+import { select } from "../state/store";
 
 
 
 export function DependencyClickable(props: { start: TaskType, end: TaskType }) {
-    return <path stroke="rgba(0,0,0,0)" fill="none" d={calcPath(props.start,props.end)} strokeWidth="10" onClick={() => console.log("Link", props.start, props.end)} className="path-hover clickable" />
+    const dispatch = useDispatch();
+    return <path stroke="rgba(0,0,0,0)" fill="none" d={calcPath(props.start,props.end)} strokeWidth="10" onClick={() => dispatch(select({type:"dependency",start:props.start, end:props.end}))} className="path-hover clickable" />
 }
 
 

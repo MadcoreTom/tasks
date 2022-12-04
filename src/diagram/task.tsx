@@ -1,11 +1,14 @@
 import * as React from "react";
+import { useDispatch } from 'react-redux'
 import { TASK_HEIGHT, TASK_WIDTH } from "../constants";
+import { select } from "../state/store";
 
 export type TaskType = {
     x: number, y: number, text: string, link?: { url: string, text: string }, dependencies?: TaskType[]
 }
 
 export function Task(props: TaskType) {
+    const dispatch = useDispatch();
 
     let link: any = null;
     if (props.link != null) {
@@ -16,7 +19,7 @@ export function Task(props: TaskType) {
         </g>
     }
 
-    return <g onClick={() => console.log(props.text)} className="clickable">
+    return <g onClick={() => dispatch(select({type:"Task",task:props}))} className="clickable">
         <rect x={props.x} y={props.y} stroke="blue" fill="skyblue" strokeWidth="2" width={TASK_WIDTH} height={TASK_HEIGHT} rx="10" ry="10" />
         <text x={props.x + TASK_WIDTH / 2} y={props.y + TASK_HEIGHT / 3} alignmentBaseline="middle" textAnchor="middle">{props.text}</text>
         {link}
