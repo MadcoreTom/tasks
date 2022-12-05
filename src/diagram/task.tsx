@@ -4,7 +4,7 @@ import { TASK_HEIGHT, TASK_WIDTH } from "../constants";
 import { select } from "../state/store";
 
 export type TaskType = {
-    x: number, y: number, text: string, link?: { url: string, text: string }, dependencies?: TaskType[]
+    x: number, y: number, text: string, link?: { url: string, text: string }, dependencies?: number[]
 }
 
 export function Task(props: TaskType & {idx:number}) {
@@ -13,7 +13,7 @@ export function Task(props: TaskType & {idx:number}) {
     let link: any = null;
     if (props.link != null) {
         const path = `M ${props.x + 10},${props.y + TASK_HEIGHT} l 10,-10 ${TASK_WIDTH - 40},0 10,10 -10,10 ${40 - TASK_WIDTH},0 -10,-10`;
-        link = <g onClick={() => console.log("Link to", props.link.url)}  className="clickable">
+        link = <g onClick={() => {if(props.link.url){window.open(props.link.url, '_blank').focus();}}}  className="clickable">
             <path d={path} fill="pink" stroke="red" />
             <text x={props.x + TASK_WIDTH / 2} y={props.y + TASK_HEIGHT} alignmentBaseline="middle" textAnchor="middle">{props.link.text}</text>
         </g>

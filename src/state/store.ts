@@ -1,28 +1,37 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
+import { SPACING_X, TASK_WIDTH } from '../constants';
 import { TaskType } from '../diagram/task'
+import { addTaskReducer } from './addtask.reducer';
+import { exportReducer } from './export.reducer';
+import { removeTaskReducer } from './removetask.reducer';
 
 type SelectedType = null | { type: "task", idx: number } | { type: "dependency", start: TaskType, end: TaskType };
 
 export type State = {
-    selected: SelectedType
+    selected: SelectedType,
+    tasks: TaskType[]
+}
+
+export type RootState = {
+    main: State
 }
 
 const nodes: TaskType[] = [
-        { x: 0, y: 0, text: "corner" },
-        { x: 220, y: 100, text: "apple" },
-        { x: 330, y: 50, text: "banana", link: { url: "www.google.com", text: "google" } },
-        { x: 500, y: 150, text: "Upload fields", link: { url: "www.google.com", text: "BASE-25012" } },
-    ]
-    
-    nodes[1].dependencies = [nodes[0]];
-    nodes[2].dependencies = [nodes[0]];
-    nodes[3].dependencies = [nodes[2]];
+    { x: 0, y: 0, text: "corner" },
+    { x: 220, y: 100, text: "apple" },
+    { x: 330, y: 50, text: "banana", link: { url: "www.google.com", text: "google" } },
+    { x: 500, y: 150, text: "Upload fields", link: { url: "www.google.com", text: "BASE-25012" } },
+]
+
+nodes[1].dependencies = [0];
+nodes[2].dependencies = [0];
+nodes[3].dependencies = [2];
 
 const mainSlice = createSlice({
     name: "main",
     initialState: {
         selected: null,
-        tasks: nodes as TaskType[]
+        tasks: nodes
     } as State,
     reducers: {
         select: (state, action: { payload: SelectedType }) => {
@@ -31,11 +40,43 @@ const mainSlice = createSlice({
         },
         updateTask: (state, action: { payload: SelectedType }) => {
             console.log("Update", action.payload);
-            if(state.selected && state.selected.type == "task"){
+            if (state.selected && state.selected.type == "task") {
                 state.tasks = [...state.tasks];
-                state.tasks[state.selected.idx] = {...action.payload};
+                state.tasks[state.selected.idx] = { ...action.payload };
             }
-        }
+        },
+        sort: (state: State) => {
+            console.log("Sort");
+
+            // Set everyone to zero
+            const tasks = state.tasks;
+            tasks.forEach(t => t.x = 10);
+
+            let attempts = 100;
+            let moves = 1;
+            while (attempts-- > 0 && moves > 0) {
+                moves = 0;
+                for (let t of tasks.filter(t => t.dependencies)) {
+                    for (let depIdx of t.dependencies) {
+                        const d = tasks[depIdx];
+                        if (d.x + SPACING_X > t.x) {
+                            t.x = d.x + SPACING_X;
+                            moves++;
+                        }
+                    }
+                }
+                console.log("Sort", moves, attempts);
+            }
+
+            state.tasks = [...tasks];
+
+            // move to right of dependencies
+
+            // loop until none left
+        },
+        exportGraph:exportReducer,
+        addTask:addTaskReducer,
+        removeTask:removeTaskReducer
     }
 });
 
@@ -45,4 +86,4 @@ export default configureStore({
     },
 });
 
-export const { select, updateTask } = mainSlice.actions;
+export const { select, updateTask, sort, exportGraph, addTask, removeTask } = mainSlice.actions;
