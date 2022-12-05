@@ -11,6 +11,8 @@ export function TaskControls(){
     const allTasks = useSelector((state : RootState) => state.main.tasks);
     const dispatch = useDispatch();
 
+    const [dependencyChoice,setDependencyChoice] = React.useState(0);
+
     const removeDep = (idx:number)=>{
         dispatch(updateTask({...task, dependencies: task.dependencies.filter(d=>d!=idx)}))
     }
@@ -35,10 +37,10 @@ export function TaskControls(){
             </ul>
             <fieldset>
                 <legend>add</legend>
-                <select>
+                <select value={dependencyChoice} onChange={e=>setDependencyChoice(parseInt(e.target.value))}>
                     {allTasks.map((t,i)=><option value={i} key={i}>{t.text}</option>)}
                 </select>
-                <button>Add Dependency</button>
+                <button onClick={()=>dispatch(updateTask({...task, dependencies:[...task.dependencies,dependencyChoice ]}))}>Add Dependency</button>
             </fieldset>
         </fieldset>
     }

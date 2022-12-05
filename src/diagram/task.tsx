@@ -4,7 +4,7 @@ import { TASK_HEIGHT, TASK_WIDTH } from "../constants";
 import { select } from "../state/store";
 
 export type TaskType = {
-    x: number, y: number, text: string, link?: { url: string, text: string }, dependencies?: number[]
+    x: number, y: number, text: string, link?: { url: string, text: string }, dependencies: number[]
 }
 
 export function Task(props: TaskType & {idx:number}) {

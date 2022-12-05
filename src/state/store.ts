@@ -17,11 +17,11 @@ export type RootState = {
 }
 
 const nodes: TaskType[] = [
-    { x: 0, y: 0, text: "corner" },
-    { x: 220, y: 100, text: "apple" },
-    { x: 330, y: 30, text: "banana", link: { url: "http://www.google.com", text: "google" } },
-    { x: 500, y: 150, text: "Upload fields", link: { url: "http://www.google.com", text: "BASE-25012" } },
-    { x: 500, y: 10, text: "Hello World", link: { url: "http://www.google.com", text: "BASE-25000" } },
+    { x: 0, y: 0, text: "corner", dependencies:[] },
+    { x: 220, y: 100, text: "apple" , dependencies:[]},
+    { x: 330, y: 30, text: "banana", link: { url: "http://www.google.com", text: "google" } , dependencies:[]},
+    { x: 500, y: 150, text: "Upload fields", link: { url: "http://www.google.com", text: "BASE-25012" } , dependencies:[]},
+    { x: 500, y: 10, text: "Hello World", link: { url: "http://www.google.com", text: "BASE-25000" }, dependencies:[] },
 ]
 
 nodes[1].dependencies = [0];
