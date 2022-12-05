@@ -19,13 +19,15 @@ export type RootState = {
 const nodes: TaskType[] = [
     { x: 0, y: 0, text: "corner" },
     { x: 220, y: 100, text: "apple" },
-    { x: 330, y: 50, text: "banana", link: { url: "www.google.com", text: "google" } },
-    { x: 500, y: 150, text: "Upload fields", link: { url: "www.google.com", text: "BASE-25012" } },
+    { x: 330, y: 30, text: "banana", link: { url: "http://www.google.com", text: "google" } },
+    { x: 500, y: 150, text: "Upload fields", link: { url: "http://www.google.com", text: "BASE-25012" } },
+    { x: 500, y: 10, text: "Hello World", link: { url: "http://www.google.com", text: "BASE-25000" } },
 ]
 
 nodes[1].dependencies = [0];
 nodes[2].dependencies = [0];
-nodes[3].dependencies = [2];
+nodes[3].dependencies = [1,2];
+nodes[4].dependencies = [2];
 
 const mainSlice = createSlice({
     name: "main",
@@ -38,7 +40,7 @@ const mainSlice = createSlice({
             console.log("Select", action.payload)
             state.selected = action.payload;
         },
-        updateTask: (state, action: { payload: SelectedType }) => {
+        updateTask: (state, action: { payload: TaskType }) => {
             console.log("Update", action.payload);
             if (state.selected && state.selected.type == "task") {
                 state.tasks = [...state.tasks];
