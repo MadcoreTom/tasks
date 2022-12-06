@@ -17,17 +17,13 @@ export type RootState = {
 }
 
 const nodes: TaskType[] = [
-    { x: 0, y: 0, text: "corner", dependencies:[] },
-    { x: 220, y: 100, text: "apple" , dependencies:[]},
-    { x: 330, y: 30, text: "banana", link: { url: "http://www.google.com", text: "google" } , dependencies:[]},
-    { x: 500, y: 150, text: "Upload fields", link: { url: "http://www.google.com", text: "BASE-25012" } , dependencies:[]},
-    { x: 500, y: 10, text: "Hello World", link: { url: "http://www.google.com", text: "BASE-25000" }, dependencies:[] },
+    { "x": 10, "y": 0, "text": "Plan Trip", "dependencies": [], "link": { "url": "https://pebblar.com/", "text": "Pebblar" } },
+    { "x": 210, "y": 100, "text": "Book flights", "dependencies": [0] },
+    { "x": 410, "y": 30, "text": "Book tours", "link": { "url": "https://www.google.com/search?q=book+tours", "text": "google" }, "dependencies": [0, 1] },
+    { "x": 610, "y": 150, "text": "Raise Ticket", "link": { "url": "https://jira.atlassian.com/", "text": "TKT-123" }, "dependencies": [2] },
+    { "x": 610, "y": 10, "text": "Some other ticket", "link": { "url": "https://jira.atlassian.com/", "text": "TKT-456" }, "dependencies": [2] },
 ]
 
-nodes[1].dependencies = [0];
-nodes[2].dependencies = [0];
-nodes[3].dependencies = [1,2];
-nodes[4].dependencies = [2];
 
 const mainSlice = createSlice({
     name: "main",

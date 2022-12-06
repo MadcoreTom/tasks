@@ -7,7 +7,7 @@ export const exportReducer = (state: State) => {
     let i = 0;
     for (let task of state.tasks) {
         i++;
-        nodes.push(`${i} ${task.text}`);
+        nodes.push(`${i} ${task.text} # ${JSON.stringify(task)}`);
         if (task.dependencies) {
             for (let d of task.dependencies) {
                 links.push(`${d + 1} ${i} dependency`);

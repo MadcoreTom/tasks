@@ -32,9 +32,11 @@ export function TaskControls(){
     if(deps){
         depsElem = <fieldset>
             <legend>Dependencies</legend>
-            <ul>
-              {deps.map((d,i)=><li key={i}>{d} - {allTasks[d].text} <button className="button is-danger is-light is-small" onClick={()=>removeDep(d)}>✖</button></li>)}
-            </ul>
+            <table className="table is-fullwidth">
+                <tbody>
+                {deps.map((d,i)=><tr key={i}><td>{allTasks[d].text}</td><td><button className="button is-danger is-light is-small" onClick={()=>removeDep(d)}>✖</button></td></tr>)}
+              </tbody>
+            </table>
             <div  className="select">
                 <select value={dependencyChoice} onChange={e=>setDependencyChoice(parseInt(e.target.value))}>
                     {allTasks.map((t,i)=><option value={i} key={i}>{t.text}</option>)}
