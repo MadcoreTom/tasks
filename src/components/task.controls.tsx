@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeTask, RootState, State, updateTask } from "../state/store";
+import { CheckboxField, TextField } from "./bulma";
 
 export function TaskControls(){
     const selected = useSelector((state : RootState) => state.main.selected);
@@ -19,12 +20,11 @@ export function TaskControls(){
 
     const link= task.link;
     let linkElem:any = null;
-    if(link != null){
-        linkElem = <fieldset>
-            <legend>Link</legend>
-            <label>Link Text <input type="text" value={link.text}  onChange={evt=>dispatch(updateTask({...task, link:{...link, text:evt.target.value}}))}/></label>
-            <label>Link URL <input type="text" value={link.url}  onChange={evt=>dispatch(updateTask({...task, link:{...link, url:evt.target.value}}))}/></label>
-        </fieldset>
+    if(link != undefined){
+        linkElem = <div>
+            <TextField label="Link Text" value={link.text} onChange={txt=>dispatch(updateTask({...task, link:{...link, text:txt}}))}/>
+            <TextField label="Link URL" value={link.url} onChange={txt=>dispatch(updateTask({...task, link:{...link, url:txt}}))}/>
+        </div>
     }
 
     const deps = task.dependencies;
@@ -33,23 +33,25 @@ export function TaskControls(){
         depsElem = <fieldset>
             <legend>Dependencies</legend>
             <ul>
-              {deps.map((d,i)=><li key={i}>{d} - {allTasks[d].text} <button onClick={()=>removeDep(d)}>x</button></li>)}
+              {deps.map((d,i)=><li key={i}>{d} - {allTasks[d].text} <button className="button is-danger is-light is-small" onClick={()=>removeDep(d)}>✖</button></li>)}
             </ul>
-            <fieldset>
-                <legend>add</legend>
+            <div  className="select">
                 <select value={dependencyChoice} onChange={e=>setDependencyChoice(parseInt(e.target.value))}>
                     {allTasks.map((t,i)=><option value={i} key={i}>{t.text}</option>)}
                 </select>
-                <button onClick={()=>dispatch(updateTask({...task, dependencies:[...task.dependencies,dependencyChoice ]}))}>Add Dependency</button>
-            </fieldset>
+                <button className="button is-success is-small" onClick={()=>dispatch(updateTask({...task, dependencies:[...task.dependencies,dependencyChoice ]}))}>Add Dependency</button>
+            </div>
         </fieldset>
     }
 
     return <div>
-        <label>Name <input type="text" value={task.text} onChange={evt=>dispatch(updateTask({...task, text:evt.target.value}))}/></label>
-        <label>Has Link <input type="checkbox" checked={link != null}  onChange={evt=>dispatch(updateTask({...task, link: link==null ? null : {text:"text",link:"link"}}))}/></label>
+        <TextField label="Task name" value={task.text} onChange={txt=>dispatch(updateTask({...task, text :txt}))}/>
+        <hr/>
+        <CheckboxField label="Has a link" checked={link != undefined} onChange={checked=>dispatch(updateTask({...task, link: checked ?  {text:"text",url:"link"}:undefined}))}/>
         {linkElem}
+        <hr/>
         {depsElem}
-        <button onClick={()=>dispatch(removeTask(selected.idx))}>Remove</button>
+        <hr/>
+        <button className="button is-danger" onClick={()=>dispatch(removeTask(selected.idx))}>Remove Task</button>
     </div>
 }

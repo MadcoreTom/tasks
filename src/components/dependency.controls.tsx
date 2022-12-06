@@ -21,6 +21,6 @@ export function DependencyControls() {
 
     return <div>
         <p>Task <b>{end.text}</b> depends on task <b>{selected.start.text}</b></p>
-        <button onClick={()=>remove()}>Remove</button>
+        <button className="button is-danger" onClick={()=>remove()}>Remove Dependency</button>
     </div>
 }

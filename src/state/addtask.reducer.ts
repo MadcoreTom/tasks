@@ -5,7 +5,8 @@ export const addTaskReducer = (state: State) => {
     const newTask:TaskType = {
         text:"",
         x:0,
-        y:0
+        y:0,
+        dependencies: []
     }
    state.tasks = [...state.tasks, newTask];
    state.selected = {type:"task", idx: state.tasks.length-1};

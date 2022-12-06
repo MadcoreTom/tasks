@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useDispatch } from 'react-redux'
-import { TASK_HEIGHT, TASK_WIDTH } from "../constants";
+import { TASK_HEIGHT, TASK_WIDTH, TOP_MARGIN } from "../constants";
 import { select } from "../state/store";
 
 export type TaskType = {
@@ -10,18 +10,20 @@ export type TaskType = {
 export function Task(props: TaskType & {idx:number}) {
     const dispatch = useDispatch();
 
+    const y = TOP_MARGIN + props.y;
+
     let link: any = null;
     if (props.link != null) {
-        const path = `M ${props.x + 10},${props.y + TASK_HEIGHT} l 10,-10 ${TASK_WIDTH - 40},0 10,10 -10,10 ${40 - TASK_WIDTH},0 -10,-10`;
+        const path = `M ${props.x + 10},${y + TASK_HEIGHT} l 10,-10 ${TASK_WIDTH - 40},0 10,10 -10,10 ${40 - TASK_WIDTH},0 -10,-10`;
         link = <g onClick={() => {if(props.link && props.link.url){window.open(props.link.url, '_blank').focus();}}}  className="clickable">
-            <path d={path} fill="pink" stroke="red" />
-            <text x={props.x + TASK_WIDTH / 2} y={props.y + TASK_HEIGHT} alignmentBaseline="middle" textAnchor="middle">{props.link.text}</text>
+            <path d={path} fill="hsl(347, 90%, 96%)" stroke="hsl(348, 100%, 61%)" />
+            <text x={props.x + TASK_WIDTH / 2} y={y + TASK_HEIGHT} alignmentBaseline="middle" textAnchor="middle">{props.link.text}</text>
         </g>
     }
 
     return <g onClick={() => dispatch(select({type:"task",idx:props.idx}))} className="clickable">
-        <rect x={props.x} y={props.y} stroke="blue" fill="skyblue" strokeWidth="2" width={TASK_WIDTH} height={TASK_HEIGHT} rx="10" ry="10" />
-        <text x={props.x + TASK_WIDTH / 2} y={props.y + TASK_HEIGHT / 3} alignmentBaseline="middle" textAnchor="middle">{props.text}</text>
+        <rect x={props.x} y={y} stroke="hsl(171, 100%, 41%)" fill="hsl(171, 100%, 96%)" strokeWidth="2" width={TASK_WIDTH} height={TASK_HEIGHT} rx="10" ry="10" />
+        <text x={props.x + TASK_WIDTH / 2} y={y + TASK_HEIGHT / 3} alignmentBaseline="middle" textAnchor="middle">{props.text}</text>
         {link}
     </g>
 }

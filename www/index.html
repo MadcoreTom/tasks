@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <style>
         html, body {
             padding:0;
@@ -12,7 +13,7 @@
             font-family: sans-serif;
             font-size:16px;
             background-color: #ffffff;
-            background-image:  linear-gradient(#e2e3e5 4.4px, transparent 4.4px), linear-gradient(90deg, #e2e3e5 4.4px, transparent 4.4px), linear-gradient(#e2e3e5 2.2px, transparent 2.2px), linear-gradient(90deg, #e2e3e5 2.2px, #ffffff 2.2px);
+            background-image:  linear-gradient(#eeeeee 4.4px, transparent 4.4px), linear-gradient(90deg, #eeeeee 4.4px, transparent 4.4px), linear-gradient(#eeeeee 2.2px, transparent 2.2px), linear-gradient(90deg, #eeeeee 2.2px, #ffffff 2.2px);
             background-size: 110px 110px, 110px 110px, 22px 22px, 22px 22px;
             background-position: -4.4px -4.4px, -4.4px -4.4px, -2.2px -2.2px, -2.2px -2.2px;
         }
@@ -49,16 +50,25 @@
             height:100%;
         }
 
-        .main>:last-child{
-            flex-grow:0;
-            border-left: 1px solid red;
-            width: 300px;
-            box-sizing: border-box;
-            padding:10px;
-        }
-
         label {
             display: block;
+        }
+
+        .control-panel {
+            position:absolute;
+            top:10px;
+            right: 10px;
+            border: 1px solid #48c78e;
+            width: 300px;
+        }
+
+        
+        .bottom-panel {
+            position:absolute;
+            top:10px;
+            left: 10px;
+            border: 1px solid #48c78e;
+            height: 80px;
         }
     </style>
 

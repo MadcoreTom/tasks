@@ -1,29 +1,24 @@
 import * as React from "react";
-import { useDispatch, useSelector } from 'react-redux'
-import { addTask, exportGraph, RootState, sort } from "../state/store";
+import { useSelector } from 'react-redux'
+import { RootState } from "../state/store";
 import { DependencyControls } from "./dependency.controls";
 import { TaskControls } from "./task.controls";
 
 
 export function ControlPanel() {
     const selected = useSelector((state: RootState) => state.main.selected)
-    const selectedText = selected ? selected.type : "nothing";
-    const dispatch = useDispatch();
+    const selectedType = selected ? <span style={{ color: '#48c78e', fontSize: "60%" }}>: {selected.type}</span> : null;
 
     let editor: any = null;
     if (selected && selected.type == "task") {
         editor = <TaskControls />
-    } else if(selected && selected.type == "dependency"){
-        editor = <DependencyControls/>
+    } else if (selected && selected.type == "dependency") {
+        editor = <DependencyControls />
     }
 
-    return <div>
-        <h3>Control Panel</h3>
-        <p>Selected {selectedText}</p>
+    return <div className="box control-panel">
+        <p className="title is-4">Control Panel{selectedType}</p>
         {editor}
         <hr />
-        <button onClick={() => dispatch(exportGraph())}>Export</button>
-        <button onClick={() => dispatch(sort())}>Sort</button>
-        <button onClick={() => dispatch(addTask())}>Add Task</button>
     </div>
 }
