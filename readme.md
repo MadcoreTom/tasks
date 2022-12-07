@@ -22,3 +22,9 @@ The export is in [trivial graph format](https://en.wikipedia.org/wiki/Trivial_Gr
 # Sort
 
 An attempt to untangle/order dependencies. (incomplete)
+
+# Issue list
+
+* Correct cursors
+    * "Grab" on drag
+    * "Move" on background pan
