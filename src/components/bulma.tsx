@@ -21,3 +21,16 @@ export function CheckboxField(props: { label: string, checked: boolean, onChange
     </div>
   </div>
 }
+
+export function SelectField(props: { label: string, value: string, options: string[], values: string[]|undefined, onChange: (value: string) => any }) {
+  return <div className="field">
+    <label className="label">{props.label}</label>
+    <div className="control">
+      <div className="select">
+        <select value={props.value} onChange={e => props.onChange(e.target.value)}>
+          {props.options.map((t, i) => <option value={props.values ? props.values[i] : t} key={i}>{t}</option>)}
+        </select>
+      </div>
+    </div>
+  </div>
+}

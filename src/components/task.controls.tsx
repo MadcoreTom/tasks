@@ -1,7 +1,8 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { TaskStatus, TaskStatuses } from "../diagram/task";
 import { removeTask, RootState, State, updateTask } from "../state/store";
-import { CheckboxField, TextField } from "./bulma";
+import { CheckboxField, SelectField, TextField } from "./bulma";
 
 export function TaskControls(){
     const selected = useSelector((state : RootState) => state.main.selected);
@@ -37,12 +38,14 @@ export function TaskControls(){
                 {deps.map((d,i)=><tr key={i}><td>{allTasks[d].text}</td><td><button className="button is-danger is-light is-small" onClick={()=>removeDep(d)}>✖</button></td></tr>)}
               </tbody>
             </table>
-            <div  className="select">
+            {/* <div className="select">
                 <select value={dependencyChoice} onChange={e=>setDependencyChoice(parseInt(e.target.value))}>
                     {allTasks.map((t,i)=><option value={i} key={i}>{t.text}</option>)}
                 </select>
-                <button className="button is-success is-small" onClick={()=>dispatch(updateTask({...task, dependencies:[...task.dependencies,dependencyChoice ]}))}>Add Dependency</button>
-            </div>
+            </div> */}
+            
+        <SelectField label="Add Dependency" value={""+dependencyChoice} options={allTasks.map(t=>t.text)} values={allTasks.map((t,i)=>""+i)} onChange={val=>setDependencyChoice(parseInt(val))}/>
+                <button className="button is-success is-small" onClick={()=>dispatch(updateTask({...task, dependencies:[...task.dependencies,dependencyChoice ]}))}>+</button>
         </fieldset>
     }
 
@@ -51,7 +54,9 @@ export function TaskControls(){
         <hr/>
         <CheckboxField label="Has a link" checked={link != undefined} onChange={checked=>dispatch(updateTask({...task, link: checked ?  {text:"text",url:"link"}:undefined}))}/>
         {linkElem}
-        <hr/>
+        <hr />
+        <SelectField label="Status" value={task.status} options={TaskStatus} onChange={val=>dispatch(updateTask({ ...task, status: val as TaskStatuses }))}/>
+        <hr />
         {depsElem}
         <hr/>
         <button className="button is-danger" onClick={()=>dispatch(removeTask(selected.idx))}>Remove Task</button>

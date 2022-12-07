@@ -3,8 +3,18 @@ import { useDispatch } from 'react-redux'
 import { TASK_HEIGHT, TASK_WIDTH, TOP_MARGIN } from "../constants";
 import { select, updateTask } from "../state/store";
 
+export const taskStatusMapping = {
+    Done: "task-done",
+    Available: "task-available",
+    AtRisk: "task-at-risk",
+    Blocked: "task-blocked",
+    Future: "task-future",
+}
+export const TaskStatus = Object.keys(taskStatusMapping);
+export type TaskStatuses =  "Future" | "Blocked" | "AtRisk" | "Done" | "Available"
+
 export type TaskType = {
-    x: number, y: number, text: string, link?: { url: string, text: string }, dependencies: number[]
+    x: number, y: number, text: string, link?: { url: string, text: string }, dependencies: number[], status: TaskStatuses
 }
 
 export function Task(props: TaskType & {idx:number}) {
@@ -23,6 +33,9 @@ export function Task(props: TaskType & {idx:number}) {
         }
     }
 
+    const classNames = taskStatusMapping[props.status];
+    //  stroke="hsl(171, 100%, 41%)" fill="hsl(171, 100%, 96%)" 
+
     let link: any = null;
     if (props.link != null) {
         const path = `M ${props.x + 10},${y + TASK_HEIGHT} l 10,-10 ${TASK_WIDTH - 40},0 10,10 -10,10 ${40 - TASK_WIDTH},0 -10,-10`;
@@ -33,7 +46,7 @@ export function Task(props: TaskType & {idx:number}) {
     }
 
     return <g onClick={() => dispatch(select({type:"task",idx:props.idx}))} className="clickable" onMouseMoveCapture={onDrag}>
-        <rect x={props.x} y={y} stroke="hsl(171, 100%, 41%)" fill="hsl(171, 100%, 96%)" strokeWidth="2" width={TASK_WIDTH} height={TASK_HEIGHT} rx="10" ry="10" />
+        <rect x={props.x} y={y}className={classNames} strokeWidth="2" width={TASK_WIDTH} height={TASK_HEIGHT} rx="10" ry="10" />
         <text x={props.x + TASK_WIDTH / 2} y={y + TASK_HEIGHT / 3} alignmentBaseline="middle" textAnchor="middle">{props.text}</text>
         {link}
     </g>

@@ -28,3 +28,9 @@ An attempt to untangle/order dependencies. (incomplete)
 * Correct cursors
     * "Grab" on drag
     * "Move" on background pan
+* Remove IDX that makes its way into export
+* Import
+* Sorting on y axis
+* Swimlanes/Milestones
+* CSS for appropriate printing
+* Center view

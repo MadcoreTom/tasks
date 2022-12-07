@@ -17,11 +17,11 @@ export type RootState = {
 }
 
 const nodes: TaskType[] = [
-    { "x": 10, "y": 0, "text": "Plan Trip", "dependencies": [], "link": { "url": "https://pebblar.com/", "text": "Pebblar" } },
-    { "x": 210, "y": 100, "text": "Book flights", "dependencies": [0] },
-    { "x": 410, "y": 30, "text": "Book tours", "link": { "url": "https://www.google.com/search?q=book+tours", "text": "google" }, "dependencies": [0, 1] },
-    { "x": 610, "y": 150, "text": "Raise Ticket", "link": { "url": "https://jira.atlassian.com/", "text": "TKT-123" }, "dependencies": [2] },
-    { "x": 610, "y": 10, "text": "Some other ticket", "link": { "url": "https://jira.atlassian.com/", "text": "TKT-456" }, "dependencies": [2] },
+    { "x": 10, "y": 0, "text": "Plan Trip", "dependencies": [], "link": { "url": "https://pebblar.com/", "text": "Pebblar" }, status: "Done" },
+    { "x": 210, "y": 100, "text": "Book flights", "dependencies": [0], status: "Done" },
+    { "x": 410, "y": 30, "text": "Book tours", "link": { "url": "https://www.google.com/search?q=book+tours", "text": "google" }, "dependencies": [0, 1], status: "Available" },
+    { "x": 610, "y": 150, "text": "Raise Ticket", "link": { "url": "https://jira.atlassian.com/", "text": "TKT-123" }, "dependencies": [2], status: "Future" },
+    { "x": 610, "y": 10, "text": "Some other ticket", "link": { "url": "https://jira.atlassian.com/", "text": "TKT-456" }, "dependencies": [2], status: "Future" },
 ]
 
 
@@ -33,11 +33,9 @@ const mainSlice = createSlice({
     } as State,
     reducers: {
         select: (state, action: { payload: SelectedType }) => {
-            console.log("Select", action.payload)
             state.selected = action.payload;
         },
         updateTask: (state, action: { payload: TaskType }) => {
-            console.log("Update", action.payload);
             if (state.selected && state.selected.type == "task") {
                 state.tasks = [...state.tasks];
                 state.tasks[state.selected.idx] = { ...action.payload };
@@ -72,9 +70,9 @@ const mainSlice = createSlice({
 
             // loop until none left
         },
-        exportGraph:exportReducer,
-        addTask:addTaskReducer,
-        removeTask:removeTaskReducer
+        exportGraph: exportReducer,
+        addTask: addTaskReducer,
+        removeTask: removeTaskReducer
     }
 });
 
