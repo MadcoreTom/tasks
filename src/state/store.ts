@@ -2,7 +2,7 @@ import { configureStore, createSlice } from '@reduxjs/toolkit'
 import { SPACING_X, TASK_WIDTH } from '../constants';
 import { TaskType } from '../diagram/task'
 import { addTaskReducer } from './addtask.reducer';
-import { exportReducer } from './export.reducer';
+import { exportReducer, importReducer } from './export.reducer';
 import { removeTaskReducer } from './removetask.reducer';
 
 type SelectedType = null | { type: "task", idx: number } | { type: "dependency", start: TaskType, end: TaskType };
@@ -72,7 +72,8 @@ const mainSlice = createSlice({
         },
         exportGraph: exportReducer,
         addTask: addTaskReducer,
-        removeTask: removeTaskReducer
+        removeTask: removeTaskReducer,
+        importGraph: importReducer
     }
 });
 
@@ -82,4 +83,4 @@ export default configureStore({
     },
 });
 
-export const { select, updateTask, sort, exportGraph, addTask, removeTask } = mainSlice.actions;
+export const { select, updateTask, sort, exportGraph, addTask, removeTask, importGraph } = mainSlice.actions;

@@ -17,7 +17,8 @@ Some of these are new
 
 # Export format
 
-The export is in [trivial graph format](https://en.wikipedia.org/wiki/Trivial_Graph_Format), with comments for the original JSON objects. You could dump it into something like [yed](https://www.yworks.com/products/yed) or easily process it yourself
+The export is a header line (starting with `//`) including a version and a link to the site they were generated from.
+This is followed by JSON array lines, with possibly nested arrays (less repeating object keys)
 
 # Sort
 
@@ -28,8 +29,8 @@ An attempt to untangle/order dependencies. (incomplete)
 * Correct cursors
     * "Grab" on drag
     * "Move" on background pan
-* Remove IDX that makes its way into export
-* Import
+* ✅ Remove IDX that makes its way into export
+* ✅ Import
 * Sorting on y axis
 * Swimlanes/Milestones
 * CSS for appropriate printing
