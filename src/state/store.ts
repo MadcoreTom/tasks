@@ -5,7 +5,10 @@ import { addTaskReducer } from './addtask.reducer';
 import { exportReducer, importReducer } from './export.reducer';
 import { removeTaskReducer } from './removetask.reducer';
 
-export type SelectedType = null | { type: "task", idx: number, dragging?: [number,number]} | { type: "dependency", start: TaskType, end: TaskType };
+export type SelectedType = null |
+ { type: "task", idx: number, dragging?: [number,number]} |
+  { type: "dependency", start: TaskType, end: TaskType } | 
+  { type:"linking", start:boolean, idx:number};
 
 export type State = {
     selected: SelectedType,
@@ -33,6 +36,16 @@ const mainSlice = createSlice({
     } as State,
     reducers: {
         select: (state, action: { payload: SelectedType }) => {
+            if(state.selected && state.selected.type =="linking" && action.payload && action.payload.type == "task"){
+                // complete the link
+                if(state.selected.start){
+                    // new selection has the dependency
+                    state.tasks[action.payload.idx].dependencies.push(state.selected.idx);
+                } else {
+                    // old selection has the dependency (just swap above)
+                    state.tasks[state.selected.idx].dependencies.push(action.payload.idx);
+                }
+            }
             state.selected = action.payload;
         },
         updateTask: (state, action: { payload: TaskType }) => {
