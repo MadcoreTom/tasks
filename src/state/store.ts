@@ -5,7 +5,7 @@ import { addTaskReducer } from './addtask.reducer';
 import { exportReducer, importReducer } from './export.reducer';
 import { removeTaskReducer } from './removetask.reducer';
 
-type SelectedType = null | { type: "task", idx: number } | { type: "dependency", start: TaskType, end: TaskType };
+export type SelectedType = null | { type: "task", idx: number, dragging?: [number,number]} | { type: "dependency", start: TaskType, end: TaskType };
 
 export type State = {
     selected: SelectedType,

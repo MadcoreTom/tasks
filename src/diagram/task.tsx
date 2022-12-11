@@ -22,17 +22,6 @@ export function Task(props: TaskType & {idx:number}) {
 
     const y = TOP_MARGIN + props.y;
 
-    
-    function onDrag(evt: React.MouseEvent) {
-        if (evt.buttons == 1 && (evt.movementX != 0 || evt.movementY != 0)) {
-            dispatch(select({type:"task",idx:props.idx}));
-            dispatch(updateTask({...props,x:props.x + evt.movementX, y:props.y+evt.movementY}));
-            evt.preventDefault();
-            evt.stopPropagation();
-            evt.nativeEvent.stopImmediatePropagation();
-        }
-    }
-
     const classNames = taskStatusMapping[props.status];
     //  stroke="hsl(171, 100%, 41%)" fill="hsl(171, 100%, 96%)" 
 
@@ -45,7 +34,7 @@ export function Task(props: TaskType & {idx:number}) {
         </g>
     }
 
-    return <g onClick={() => dispatch(select({type:"task",idx:props.idx}))} className="clickable" onMouseMoveCapture={onDrag}>
+    return <g onMouseDown={() => dispatch(select({type:"task",idx:props.idx, dragging:[0,0]}))} onMouseUp={() => dispatch(select({type:"task",idx:props.idx}))} className="clickable">
         <rect x={props.x} y={y}className={classNames} strokeWidth="2" width={TASK_WIDTH} height={TASK_HEIGHT} rx="10" ry="10" />
         <text x={props.x + TASK_WIDTH / 2} y={y + TASK_HEIGHT / 3} alignmentBaseline="middle" textAnchor="middle">{props.text}</text>
         {link}

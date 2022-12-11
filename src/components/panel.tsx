@@ -7,7 +7,7 @@ export function Panel() {
     const dispatch = useDispatch();
     return <div className="box bottom-panel">
         <div className="buttons">
-            <button className="button is-white" style={{ fontWeight: "bold" }}>Tasks</button>
+            <button className="button is-white app-name is-small">Tasks</button>
             <button className="button is-info" onClick={() => dispatch(exportGraph())}>Download</button>
 
             <div className="file is-info">
