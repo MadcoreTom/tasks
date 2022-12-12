@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { TASK_HEIGHT, TASK_WIDTH, TOP_MARGIN } from "../constants";
 import { AddLinkButton } from "../diagram/addlink";
 import { DependencyClickable, DependencyPath } from "../diagram/dependency";
+import { RulerGuides } from "../diagram/guides";
 import { Task, TaskType } from "../diagram/task";
 import { RootState, select, SelectedType, updateTask } from "../state/store";
 
@@ -34,7 +35,6 @@ export function Graph() {
         if (selected && selected.type == "task" && selected.dragging) {
             const n = nodes[selected.idx];
             dispatch(updateTask({ ...n, x: n.x + evt.movementX, y: n.y + evt.movementY }));
-            // }if (evt.buttons == 2 && (evt.movementX != 0 || evt.movementY != 0)) {
         } else if (evt.buttons > 0) {
             setOffset([offset[0] + evt.movementX, offset[1] + evt.movementY]);
         }
@@ -45,6 +45,9 @@ export function Graph() {
             dispatch(select({ ...selected, dragging: undefined }))
         }
     }
+
+
+  
 
     let addButtons: any = null;
     if (selected && selected.type == "task") {
@@ -74,6 +77,7 @@ export function Graph() {
         onMouseUp={onRelease}
         style={{ backgroundPosition: `${offset[0]}px ${offset[1]}px` }}
         onContextMenu={(e) => e.preventDefault()}>
+        <RulerGuides selected={selected} tasks={nodes} offset={offset}/>
         <g transform={`translate(${offset[0]},${offset[1]})`}>
             {pathZoneElems}
             {pathElems}

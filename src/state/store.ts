@@ -1,9 +1,11 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
 import { SPACING_X, TASK_WIDTH } from '../constants';
 import { TaskType } from '../diagram/task'
+import { snapX, snapY } from '../util/snap';
 import { addTaskReducer } from './addtask.reducer';
 import { exportReducer, importReducer } from './export.reducer';
 import { removeTaskReducer } from './removetask.reducer';
+import { updateTaskReducer } from './updateTask.reducer';
 
 export type SelectedType = null |
  { type: "task", idx: number, dragging?: [number,number]} |
@@ -35,7 +37,7 @@ const mainSlice = createSlice({
         tasks: nodes
     } as State,
     reducers: {
-        select: (state, action: { payload: SelectedType }) => {
+        select: (state:State, action: { payload: SelectedType }) => {
             if(state.selected && state.selected.type =="linking" && action.payload && action.payload.type == "task"){
                 // complete the link
                 if(state.selected.start){
@@ -46,14 +48,19 @@ const mainSlice = createSlice({
                     state.tasks[state.selected.idx].dependencies.push(action.payload.idx);
                 }
             }
+            if(state.selected && state.selected.type == "task" && state.selected.dragging && 
+            action.payload && action.payload.type == "task" && !action.payload.dragging){
+                // dropped task from dragging. snap to any rulers
+                const sel = state.tasks[action.payload.idx];
+                const sx = snapX(state.tasks,sel);
+                const sy = snapY(state.tasks,sel);
+                let x = sx == undefined ? sel.x : sx;
+                let y = sy == undefined ? sel.y : sy;
+                state.tasks[action.payload.idx] = {...sel, x, y};
+            }
             state.selected = action.payload;
         },
-        updateTask: (state, action: { payload: TaskType }) => {
-            if (state.selected && state.selected.type == "task") {
-                state.tasks = [...state.tasks];
-                state.tasks[state.selected.idx] = { ...action.payload };
-            }
-        },
+        updateTask: updateTaskReducer,
         sort: (state: State) => {
             console.log("Sort");
 
