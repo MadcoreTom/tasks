@@ -22,7 +22,7 @@ export function CheckboxField(props: { label: string, checked: boolean, onChange
   </div>
 }
 
-export function SelectField(props: { label: string, value: string, options: string[], values: string[]|undefined, onChange: (value: string) => any }) {
+export function SelectField(props: { label: string, value: string, options: string[], values?: string[], onChange: (value: string) => any }) {
   return <div className="field">
     <label className="label">{props.label}</label>
     <div className="control">
@@ -33,4 +33,13 @@ export function SelectField(props: { label: string, value: string, options: stri
       </div>
     </div>
   </div>
+}
+
+export function ButtonIcon(props: {text:string, onClick:()=>any, iconCode:string,buttonClass?:string}){
+  return <button className={`button ${props.buttonClass}`} onClick={() => props.onClick()}>
+  <span className="icon is-small">
+      <i>{props.iconCode}</i>
+  </span>
+  <span>{props.text}</span>
+</button>
 }

@@ -14,11 +14,12 @@ export function ControlPanel() {
         editor = <TaskControls />
     } else if (selected && selected.type == "dependency") {
         editor = <DependencyControls />
+    } else {
+        editor = <p>Click a task or dependency to modify it here</p>
     }
 
     return <div className="box control-panel">
         <p className="title is-4">Control Panel{selectedType}</p>
         {editor}
-        <hr />
     </div>
 }

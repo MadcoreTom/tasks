@@ -5,10 +5,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+        @font-face {
+            font-family: 'icon';
+            src: url('./icons.woff');
+        }
 
         html, body {
             padding:0;
             margin:0;
+        }
+
+        .icon > i {
+            display: inline-block;
+            font-family: icon;
+            font-style: normal;
         }
 
         svg {
@@ -107,7 +117,6 @@
 
         .task-future {
             stroke:hsl(0, 0%, 21%);
-            stroke-dasharray: 5px 5px;
             fill: hsl(0, 0%, 86%);
         }
 

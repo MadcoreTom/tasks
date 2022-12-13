@@ -35,3 +35,17 @@ An attempt to untangle/order dependencies. (incomplete)
 * Swimlanes/Milestones
 * CSS for appropriate printing
 * Center view
+
+# Fonts
+
+Assembled via fontello, just the `woff` format for compatbility/simplicity/laziness reasons
+```
+flow-branch
+floppy
+doc-add
+trash-empty
+sort-name-up
+download
+upload
+attention-circled
+```

@@ -2,7 +2,7 @@ import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TaskStatus, TaskStatuses } from "../diagram/task";
 import { removeTask, RootState, State, updateTask } from "../state/store";
-import { CheckboxField, SelectField, TextField } from "./bulma";
+import { ButtonIcon, CheckboxField, SelectField, TextField } from "./bulma";
 
 export function TaskControls(){
     const selected = useSelector((state : RootState) => state.main.selected);
@@ -37,15 +37,7 @@ export function TaskControls(){
                 <tbody>
                 {deps.map((d,i)=><tr key={i}><td>{allTasks[d].text}</td><td><button className="button is-danger is-light is-small" onClick={()=>removeDep(d)}>✖</button></td></tr>)}
               </tbody>
-            </table>
-            {/* <div className="select">
-                <select value={dependencyChoice} onChange={e=>setDependencyChoice(parseInt(e.target.value))}>
-                    {allTasks.map((t,i)=><option value={i} key={i}>{t.text}</option>)}
-                </select>
-            </div> */}
-            
-        <SelectField label="Add Dependency" value={""+dependencyChoice} options={allTasks.map(t=>t.text)} values={allTasks.map((t,i)=>""+i)} onChange={val=>setDependencyChoice(parseInt(val))}/>
-                <button className="button is-success is-small" onClick={()=>dispatch(updateTask({...task, dependencies:[...task.dependencies,dependencyChoice ]}))}>+</button>
+            </table>            
         </fieldset>
     }
 
@@ -59,6 +51,6 @@ export function TaskControls(){
         <hr />
         {depsElem}
         <hr/>
-        <button className="button is-danger" onClick={()=>dispatch(removeTask(selected.idx))}>Remove Task</button>
+        <ButtonIcon text="Remove Task" buttonClass="is-danger" onClick={()=>dispatch(removeTask(selected.idx))} iconCode={'\uE801'}/>
     </div>
 }

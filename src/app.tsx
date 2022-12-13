@@ -5,6 +5,7 @@ import store from "./state/store";
 import { ControlPanel } from "./components/controlpanel";
 import { Panel } from "./components/panel";
 import { Graph } from "./components/graph";
+import { SaveModal } from "./components/save";
 
 
 function App() {
