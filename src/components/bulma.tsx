@@ -11,6 +11,16 @@ export function TextField(props: { label: string, value: string, onChange: (valu
 }
 
 // Create a labelled text field following the Bulma layout
+export function TextArea(props: { label: string, value: string, rows:number, onChange: (value: string) => any }) {
+  return <div className="field">
+      <label className="label">{props.label}</label>
+      <div className="control">
+          <textarea className="textarea" rows={props.rows} value={props.value}  onChange={evt => props.onChange(evt.target.value)}/>
+      </div>
+  </div>
+}
+
+// Create a labelled text field following the Bulma layout
 export function CheckboxField(props: { label: string, checked: boolean, onChange: (checked: boolean) => any }) {
     return <div className="field">
     <div className="control">

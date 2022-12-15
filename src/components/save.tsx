@@ -26,7 +26,7 @@ export function SaveModal(props: { onClose: () => any }) {
                         <p>Upload files from your computer and continue working on them</p>
                         <div className="file is-info">
                             <label className="file-label">
-                                <input className="file-input" type="file" name="resume" onChange={evt => loadFile(evt, data => dispatch(importGraph(data)))} />
+                                <input className="file-input" type="file" name="resume" onChange={evt => loadFile(evt, data => {dispatch(importGraph(data)); props.onClose()})} />
                                 <span className="file-cta">
                                     <span className="icon is-small">
                                         <i>{'\ue803'}</i>

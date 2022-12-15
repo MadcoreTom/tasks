@@ -34,9 +34,14 @@ export function Task(props: {task:TaskType, idx:number, isSelected:boolean}) {
         </g>
     }
 
+    const titleLines =  task.text.split(/[\r\n]/);
+    const title :any[]= titleLines.map((t,i)=><tspan  x={task.x + TASK_WIDTH / 2} dy={i==0?0:"1.2em"} textAnchor="middle">{t}</tspan>);
+    const anyLinesOver20 = titleLines.filter(a=>a.length > 20).length > 0;
+    const fontSize = anyLinesOver20? "11px" :"16px";
+
     return <g onMouseDown={() => dispatch(select({type:"task",idx:props.idx, dragging:[0,0]}))} onMouseUp={() => dispatch(select({type:"task",idx:props.idx}))} className="clickable">
         <rect x={task.x} y={y}className={classNames} strokeWidth="2" width={TASK_WIDTH} height={TASK_HEIGHT} rx="10" ry="10" />
-        <text x={task.x + TASK_WIDTH / 2} y={y + TASK_HEIGHT / 3} alignmentBaseline="middle" textAnchor="middle">{task.text}</text>
+        <text x={task.x + TASK_WIDTH / 2} y={y + TASK_HEIGHT / 3} alignmentBaseline="middle" textAnchor="middle" style={{fontSize:fontSize}}>{title}</text>
         {link}
     </g>
 }
