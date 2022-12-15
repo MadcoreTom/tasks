@@ -10,7 +10,7 @@ export const exportReducer = (state: State) => {
     tasks.unshift(HEADER);
     const data = tasks.join("\n");
     console.log(data);
-    download("task-graph.dat", data);
+    download(`${state.title}.dat`, data);
 }
 
 // https://stackoverflow.com/questions/3665115/how-to-create-a-file-in-memory-for-user-to-download-but-not-through-server
@@ -27,8 +27,8 @@ function download(filename, text) {
     document.body.removeChild(element);
   }
 
-  export const importReducer = (state: State, action:{payload:string}) => {
-    const lines = action.payload.split(/[\n\r]+/).filter(line=>line.trim().length > 0);
+  export const importReducer = (state: State, action:{payload:{data:string, title:string}}) => {
+    const lines = action.payload.data.split(/[\n\r]+/).filter(line=>line.trim().length > 0);
     const header = lines.shift() as string;
 
       const headerMatch = header.match(HEADER_PATTERN);
@@ -43,6 +43,9 @@ function download(filename, text) {
     console.log(tasks);
     state.tasks = tasks;
     state.selected = null;
+
+    const dot = action.payload.title.lastIndexOf(".");
+    state.title = dot >0 ? action.payload.title.substring(0,dot) : action.payload.title;
 }
 
 function taskToArray(task: TaskType): any[] {

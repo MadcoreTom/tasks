@@ -14,7 +14,8 @@ export type SelectedType = null |
 
 export type State = {
     selected: SelectedType,
-    tasks: TaskType[]
+    tasks: TaskType[],
+    title:string
 }
 
 export type RootState = {
@@ -34,9 +35,13 @@ const mainSlice = createSlice({
     name: "main",
     initialState: {
         selected: null,
-        tasks: nodes
+        tasks: nodes,
+        title: "untitled"
     } as State,
     reducers: {
+        setTitle:(state:State, action:{payload:string})=>{
+            state.title = action.payload;
+        },
         select: (state:State, action: { payload: SelectedType }) => {
             if(state.selected && state.selected.type =="linking" && action.payload && action.payload.type == "task"){
                 // complete the link
@@ -103,4 +108,4 @@ export default configureStore({
     },
 });
 
-export const { select, updateTask, sort, exportGraph, addTask, removeTask, importGraph } = mainSlice.actions;
+export const { select, updateTask, sort, exportGraph, addTask, removeTask, importGraph, setTitle } = mainSlice.actions;
