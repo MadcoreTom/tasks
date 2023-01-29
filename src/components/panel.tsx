@@ -18,7 +18,7 @@ export function Panel() {
             <ButtonIcon text="Save/Load" buttonClass="is-info is-outlined" iconCode={'\uE804'} onClick={() => setSaveModal(true)} />
             <ButtonIcon text="Sort" buttonClass="is-info is-outlined" iconCode={'\uF15D'} onClick={() => dispatch(sort())} />
             <ButtonIcon text="Add Task" buttonClass="is-success" iconCode={'\uE800'} onClick={() => dispatch(addTask())} />
-            <button className="button is-info is-outlined" onClick={() => dispatch(setViewMode(viewMode == 'graph' ? "table" : "graph"))} >switchMode</button>
+            <button className="button is-outlined" onClick={() => dispatch(setViewMode(viewMode == 'graph' ? "table" : "graph"))} >To {viewMode == 'graph' ? "Table" : "Graph"} Mode</button>
         </div>
         {showSaveModal ? <SaveModal onClose={() => setSaveModal(false)} /> : null}
     </div>
