@@ -15,7 +15,8 @@ export type SelectedType = null |
 export type State = {
     selected: SelectedType,
     tasks: TaskType[],
-    title:string
+    title:string,
+    viewMode: 'graph' | 'table';
 }
 
 export type RootState = {
@@ -36,9 +37,13 @@ const mainSlice = createSlice({
     initialState: {
         selected: null,
         tasks: nodes,
-        title: "untitled"
+        title: "untitled",
+        viewMode: 'graph'
     } as State,
     reducers: {
+        setViewMode:(state:State,action:{payload:'graph' | 'table'})=>{
+            state.viewMode = action.payload;
+        },
         setTitle:(state:State, action:{payload:string})=>{
             state.title = action.payload;
         },
@@ -108,4 +113,4 @@ export default configureStore({
     },
 });
 
-export const { select, updateTask, sort, exportGraph, addTask, removeTask, importGraph, setTitle } = mainSlice.actions;
+export const { select, updateTask, sort, exportGraph, addTask, removeTask, importGraph, setTitle, setViewMode } = mainSlice.actions;
