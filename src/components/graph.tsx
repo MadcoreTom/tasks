@@ -72,7 +72,7 @@ export function Graph() {
     }
 
 
-    return <svg width="800" height="600"
+    return <svg height="600"
         onMouseMoveCapture={onDrag}
         onMouseUp={onRelease}
         style={{ backgroundPosition: `${offset[0]}px ${offset[1]}px` }}

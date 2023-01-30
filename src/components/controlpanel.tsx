@@ -7,7 +7,7 @@ import { TaskControls } from "./task.controls";
 
 export function ControlPanel() {
     const selected = useSelector((state: RootState) => state.main.selected)
-    const selectedType = selected ? <span style={{ color: '#48c78e', fontSize: "60%" }}>: {selected.type}</span> : null;
+    // const selectedType = selected ? <span style={{ color: '#48c78e', fontSize: "60%" }}>: {selected.type}</span> : null;
 
     let editor: any = null;
     if (selected && selected.type == "task") {
@@ -19,7 +19,7 @@ export function ControlPanel() {
     }
 
     return <div className="box control-panel">
-        <p className="title is-4">Control Panel{selectedType}</p>
+        <p className="title is-4" style={{textTransform:"capitalize"}}>{selected ? selected.type : "Control Panel"}</p>
         {editor}
     </div>
 }

@@ -12,12 +12,14 @@ function App() {
     const viewMode = useSelector((state: RootState) => state.main.viewMode);
 
     return <div className="main">
+    <Panel />
         {viewMode == 'graph' ? <Graph /> : null}
         {viewMode == 'table' ? <TableMode /> : null}
         <ControlPanel />
-        <Panel />
     </div>
 }
+
+
 
 
 createRoot(document.querySelector("#root") as HTMLElement)
