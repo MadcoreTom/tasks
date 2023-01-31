@@ -1,10 +1,12 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
 import { SPACING_X, TASK_WIDTH } from '../constants';
 import { TaskType } from '../diagram/task'
+import { COLOUR_MAP } from '../util/colour';
 import { snapX, snapY } from '../util/snap';
 import { addTaskReducer } from './addtask.reducer';
 import { exportReducer, importReducer } from './export.reducer';
 import { removeTaskReducer } from './removetask.reducer';
+import { addStatusReducer, removeStausReducer, renameStatusReducer, setStatusColourReducer } from './status.reducer';
 import { updateTaskReducer } from './updateTask.reducer';
 
 export type SelectedType = null |
@@ -16,7 +18,8 @@ export type State = {
     selected: SelectedType,
     tasks: TaskType[],
     title:string,
-    viewMode: 'graph' | 'table';
+    viewMode: 'graph' | 'table',
+    statuses: {text:string,colour:string}[]
 }
 
 export type RootState = {
@@ -37,8 +40,15 @@ const mainSlice = createSlice({
     initialState: {
         selected: null,
         tasks: nodes,
-        title: "untitled",
-        viewMode: 'graph'
+        title: "Untitled",
+        viewMode: 'graph',
+        statuses: [
+            {text:"Future", colour:COLOUR_MAP.blue.light},
+            {text:"Blocked",colour:COLOUR_MAP.red.med},
+            {text:"AtRisk",colour:COLOUR_MAP.yellow.med},
+            {text:"Done",colour:COLOUR_MAP.green.med},
+            {text:"Available",colour:COLOUR_MAP.purple.med},
+        ]
     } as State,
     reducers: {
         setViewMode:(state:State,action:{payload:'graph' | 'table'})=>{
@@ -103,7 +113,11 @@ const mainSlice = createSlice({
         exportGraph: exportReducer,
         addTask: addTaskReducer,
         removeTask: removeTaskReducer,
-        importGraph: importReducer
+        importGraph: importReducer,
+        renameStatus: renameStatusReducer,
+        addStatus: addStatusReducer,
+        setStatusColour: setStatusColourReducer,
+        removeStatus:removeStausReducer
     }
 });
 
@@ -113,4 +127,4 @@ export default configureStore({
     },
 });
 
-export const { select, updateTask, sort, exportGraph, addTask, removeTask, importGraph, setTitle, setViewMode } = mainSlice.actions;
+export const { select, updateTask, sort, exportGraph, addTask, removeTask, importGraph, setTitle, setViewMode, renameStatus, addStatus, setStatusColour, removeStatus } = mainSlice.actions;

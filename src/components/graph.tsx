@@ -11,6 +11,7 @@ import { RootState, select, SelectedType, updateTask } from "../state/store";
 export function Graph() {
     let nodes = useSelector((state: RootState) => state.main.tasks) as TaskType[];
     let selected = useSelector((state: RootState) => state.main.selected) as SelectedType;
+    let statuses = useSelector((state: RootState) => state.main.statuses)
     const dispatch = useDispatch();
     let [mousePos, setMousePos] = React.useState([0, 0]);
 
@@ -19,7 +20,7 @@ export function Graph() {
 
     let [offset, setOffset] = React.useState([0, 0]);
 
-    const nodeElems = nodes.map((n, i) => <Task task={n} idx={i} isSelected={i == selectedIdx} key={i} />)
+    const nodeElems = nodes.map((n, i) => <Task task={n} colour={statuses.filter(s=>n.status == s.text)[0] ? statuses.filter(s=>n.status == s.text)[0].colour:"red"} idx={i} isSelected={i == selectedIdx} key={i} />)
     const pathZoneElems = nodes
         .filter(n => n.dependencies)
         .map(n => { return n.dependencies.map(i => nodes[i]).map(d => { return { start: d, end: n } }) })

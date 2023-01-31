@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { TaskStatus, TaskStatuses } from "../diagram/task";
 import { removeTask, RootState, State, updateTask } from "../state/store";
 import { ButtonIcon, CheckboxField, SelectField, TextArea, TextField } from "./bulma";
 
@@ -11,6 +10,7 @@ export function TaskControls(){
     }
     const task = useSelector((state : RootState) => state.main.tasks[selected.idx]);
     const allTasks = useSelector((state : RootState) => state.main.tasks);
+    const statuses = useSelector((state : RootState) => state.main.statuses);
     const dispatch = useDispatch();
 
     const [dependencyChoice,setDependencyChoice] = React.useState(0);
@@ -47,7 +47,7 @@ export function TaskControls(){
         <CheckboxField label="Has a link" checked={link != undefined} onChange={checked=>dispatch(updateTask({...task, link: checked ?  {text:"text",url:"link"}:undefined}))}/>
         {linkElem}
         <hr />
-        <SelectField label="Status" value={task.status} options={TaskStatus} onChange={val=>dispatch(updateTask({ ...task, status: val as TaskStatuses }))}/>
+        <SelectField label="Status" value={task.status} options={statuses.map(s=>s.text)} onChange={val=>dispatch(updateTask({ ...task, status: val }))}/>
         <hr />
         {depsElem}
         <hr/>

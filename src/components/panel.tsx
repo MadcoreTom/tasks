@@ -2,31 +2,16 @@ import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTask, exportGraph, importGraph, RootState, setTitle, setViewMode, sort } from "../state/store";
 import { ButtonIcon } from "./bulma";
+import { StatusesModal } from "./status.modal";
 
-function PanelOld() {
-    const dispatch = useDispatch();
-    const title = useSelector((state: RootState) => state.main.title);
-    const viewMode = useSelector((state: RootState) => state.main.viewMode);
-    const [showSaveModal, setSaveModal] = React.useState(false);
 
-    return <div className="box bottom-panel">
-        <div className="buttons">
-            {/* <input className="input" type="text" value={title} onChange={evt => dispatch(setTitle(evt.target.value))} style={{ marginBottom: "0.5rem", marginRight: "0.5rem", width: "150px" }} /> */}
-            {/* <ButtonIcon text="Save/Load" buttonClass="is-info is-outlined" iconCode={'\uE804'} onClick={() => setSaveModal(true)} /> */}
-            <ButtonIcon text="Sort" buttonClass="is-info is-outlined" iconCode={'\uF15D'} onClick={() => dispatch(sort())} />
-            {/* <ButtonIcon text="Add Task" buttonClass="is-success" iconCode={'\uE800'} onClick={() => dispatch(addTask())} /> */}
-            {/* <button className="button is-outlined" onClick={() => dispatch(setViewMode(viewMode == 'graph' ? "table" : "graph"))} >To {viewMode == 'graph' ? "Table" : "Graph"} Mode</button> */}
-        </div>
-        {/* {showSaveModal ? <SaveModal onClose={() => setSaveModal(false)} /> : null} */}
-    </div>
-}
 
 export function Panel(): any {
     const dispatch = useDispatch();
     const viewMode = useSelector((state: RootState) => state.main.viewMode);
     const title = useSelector((state: RootState) => state.main.title);
-    const [showSaveModal, setSaveModal] = React.useState(false);
     const [isRenaming, setRenaming] = React.useState(false);
+    const [statusDialogOpen, setStatusDialogOpen] = React.useState(false);
 
     let titleElem = <div className="navbar-item" onClick={() => setRenaming(true)} style={{ cursor: "cell" }}>"{title}"</div>;
     if (isRenaming) {
@@ -51,6 +36,9 @@ export function Panel(): any {
                     <div className="navbar-dropdown is-boxed">
                         <a className="navbar-item" onClick={() => setRenaming(true)} >
                             Rename
+                        </a>
+                        <a className="navbar-item" onClick={() => setStatusDialogOpen(true)} >
+                            Edit Statuses
                         </a>
                         <a className="navbar-item" onClick={() => dispatch(sort())}>
                             <span className="icon">
@@ -121,6 +109,7 @@ export function Panel(): any {
                 </div>
             </div>
         </div>
+        {statusDialogOpen ? <StatusesModal onClose={() => setStatusDialogOpen(false)} /> : null}
     </nav>
 }
 
