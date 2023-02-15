@@ -34,6 +34,16 @@ const nodes: TaskType[] = [
     { "x": 610, "y": 10, "text": "Some other ticket", "link": { "url": "https://jira.atlassian.com/", "text": "TKT-456" }, "dependencies": [2], status: "Future" },
 ]
 
+export function createDefaultStatuses(): { text: string, colour: string }[] {
+    return [
+        { text: "Future", colour: COLOUR_MAP.blue.light },
+        { text: "Blocked", colour: COLOUR_MAP.red.med },
+        { text: "AtRisk", colour: COLOUR_MAP.yellow.med },
+        { text: "Done", colour: COLOUR_MAP.green.med },
+        { text: "Available", colour: COLOUR_MAP.purple.med },
+    ]
+}
+
 
 const mainSlice = createSlice({
     name: "main",
@@ -42,13 +52,7 @@ const mainSlice = createSlice({
         tasks: nodes,
         title: "Untitled",
         viewMode: 'graph',
-        statuses: [
-            {text:"Future", colour:COLOUR_MAP.blue.light},
-            {text:"Blocked",colour:COLOUR_MAP.red.med},
-            {text:"AtRisk",colour:COLOUR_MAP.yellow.med},
-            {text:"Done",colour:COLOUR_MAP.green.med},
-            {text:"Available",colour:COLOUR_MAP.purple.med},
-        ]
+        statuses: createDefaultStatuses()
     } as State,
     reducers: {
         setViewMode:(state:State,action:{payload:'graph' | 'table'})=>{
