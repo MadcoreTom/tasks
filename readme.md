@@ -24,6 +24,14 @@ This is followed by JSON array lines, with possibly nested arrays (less repeatin
 
 An attempt to untangle/order dependencies. (incomplete)
 
+# Controls
+
+* Click to select a Task or Dependency
+* Drag a Task to move it
+* Drag the background to move around the diagram
+* Shift + drag to select more than one Task
+    * Click + drag anywhere (with multiple selected) to move multiple
+
 # Issue list
 
 * Correct cursors

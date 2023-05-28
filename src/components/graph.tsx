@@ -5,7 +5,7 @@ import { AddLinkButton } from "../diagram/addlink";
 import { DependencyClickable, DependencyPath } from "../diagram/dependency";
 import { RulerGuides } from "../diagram/guides";
 import { Task, TaskType } from "../diagram/task";
-import { RootState, select, SelectedType, updateTask } from "../state/store";
+import { moveMultiTasks, RootState, select, SelectedType, updateTask } from "../state/store";
 
 
 export function Graph() {
@@ -17,7 +17,7 @@ export function Graph() {
 
     const selectedIdx = (selected && selected.type == "task") ? selected.idx : -1;
     const selectedIndices = (selected && selected.type == "multi") ? selected.nodeIdx : [];
-
+    const isMultiSelect = selectedIndices.length > 0;
 
     let [offset, setOffset] = React.useState([0, 0]);
 
@@ -26,7 +26,9 @@ export function Graph() {
             task={n}
             colour={statuses.filter(s => n.status == s.text)[0] ? statuses.filter(s => n.status == s.text)[0].colour : "red"}
             idx={i}
-            isSelected={i == selectedIdx || selectedIndices.includes(i) } key={i}
+            isSelected={i == selectedIdx || selectedIndices.includes(i) } 
+            key={i}
+            isMultiSelect={isMultiSelect}
         />)
     const pathZoneElems = nodes
         .filter(n => n.dependencies)
@@ -46,7 +48,10 @@ export function Graph() {
         } else if (selected && selected.type == "box") {
             const pt = getMouseXY(evt, offset);
             dispatch(select({ ...selected, end:pt }));
-        } else if (evt.buttons > 0) {
+        } else if(selected && selected.type == "multi" && evt.buttons > 0){
+            const indices = selected.nodeIdx;
+            dispatch(moveMultiTasks({delta:[evt.movementX,evt.movementY], indices}))
+        }else if (evt.buttons > 0) {
             setOffset([offset[0] + evt.movementX, offset[1] + evt.movementY]);
         }
         setMousePos([evt.clientX - offset[0], evt.clientY - offset[1]]);

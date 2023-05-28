@@ -10,11 +10,11 @@ import { addStatusReducer, removeStausReducer, renameStatusReducer, setStatusCol
 import { updateTaskReducer } from './updateTask.reducer';
 
 export type SelectedType = null |
- { type: "task", idx: number, dragging?: [number,number]} |
-  { type: "dependency", start: TaskType, end: TaskType } | 
-  { type:"linking", start:boolean, idx:number} |
-  {type:"box", start:[number,number],end?:[number,number]} |
-  {type:"multi", nodeIdx:number[]};
+{ type: "task", idx: number, dragging?: [number, number] } |
+{ type: "dependency", start: TaskType, end: TaskType } |
+{ type: "linking", start: boolean, idx: number } |
+{ type: "box", start: [number, number], end?: [number, number] } |
+{ type: "multi", nodeIdx: number[] };
 
 export type State = {
     selected: SelectedType,
@@ -87,6 +87,16 @@ const mainSlice = createSlice({
             state.selected = action.payload;
         },
         updateTask: updateTaskReducer,
+        // TODO move
+        moveMultiTasks: (state: State, action: { payload: { delta: [number, number], indices: number[] } }) => {
+            action.payload.indices.forEach(i => {
+                state.tasks[i] = {
+                    ...state.tasks[i],
+                    x: state.tasks[i].x + action.payload.delta[0],
+                    y: state.tasks[i].y + action.payload.delta[1]
+                }
+            })
+        },
         sort: (state: State) => {
             console.log("Sort");
 
@@ -133,4 +143,4 @@ export default configureStore({
     },
 });
 
-export const { select, updateTask, sort, exportGraph, addTask, removeTask, importGraph, setTitle, setViewMode, renameStatus, addStatus, setStatusColour, removeStatus } = mainSlice.actions;
+export const { select, updateTask, sort, exportGraph, addTask, removeTask, importGraph, setTitle, setViewMode, renameStatus, addStatus, setStatusColour, removeStatus, moveMultiTasks } = mainSlice.actions;
