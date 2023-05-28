@@ -14,6 +14,11 @@ export function ControlPanel() {
         editor = <TaskControls />
     } else if (selected && selected.type == "dependency") {
         editor = <DependencyControls />
+    } else if (selected && selected.type == "multi") {
+        // TODO
+        editor = <div>
+            <p>Multi Select {selected.nodeIdx.join(", ")}</p>
+        </div>
     } else {
         editor = <p>Click a task or dependency to modify it here</p>
     }

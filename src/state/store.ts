@@ -12,7 +12,9 @@ import { updateTaskReducer } from './updateTask.reducer';
 export type SelectedType = null |
  { type: "task", idx: number, dragging?: [number,number]} |
   { type: "dependency", start: TaskType, end: TaskType } | 
-  { type:"linking", start:boolean, idx:number};
+  { type:"linking", start:boolean, idx:number} |
+  {type:"box", start:[number,number],end?:[number,number]} |
+  {type:"multi", nodeIdx:number[]};
 
 export type State = {
     selected: SelectedType,
