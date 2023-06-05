@@ -2,7 +2,7 @@ import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NAVBAR_HEIGHT_PX, TASK_HEIGHT, TASK_WIDTH, TOP_MARGIN } from "../constants";
 import { AddLinkButton } from "../diagram/addlink";
-import { DependencyClickable, DependencyPath } from "../diagram/dependency";
+import { DependencyClickable, DependencyPath, TempDependencyPath } from "../diagram/dependency";
 import { RulerGuides } from "../diagram/guides";
 import { Task, TaskType } from "../diagram/task";
 import { moveMultiTasks, RootState, select, SelectedType, updateTask } from "../state/store";
@@ -102,17 +102,16 @@ export function Graph() {
         </g>
     } else if (selected && selected.type == "linking") {
         const n = nodes[selected.idx];
-        let start: number[] | null = null;
-        let end: number[] | null = null;
+        let start: [number,number] | null = null;
+        let end: [number,number] | null = null;
         if (selected.start) {
-            start = [n.x + TASK_WIDTH, n.y + TASK_HEIGHT / 2 + TOP_MARGIN];
-            end = mousePos;
+            start = [n.x + TASK_WIDTH, n.y + TASK_HEIGHT / 2];
+            end = [mousePos[0],mousePos[1]-NAVBAR_HEIGHT_PX - TOP_MARGIN];
         } else {
-            start = mousePos;
-            end = [n.x, n.y + TASK_HEIGHT / 2 + TOP_MARGIN];
+            start = [mousePos[0],mousePos[1]-NAVBAR_HEIGHT_PX- TOP_MARGIN];
+            end = [n.x, n.y + TASK_HEIGHT / 2 ];
         }
-        const path = `M ${start[0]},${start[1]} L ${end[0]},${end[1]}`;
-        addButtons = <path d={path} stroke="magenta" style={{ pointerEvents: "none" }} strokeWidth="3" />
+        addButtons = <TempDependencyPath start={start} end={end} />
     }
 
     const onMouseDown = (evt: React.MouseEvent) => {
