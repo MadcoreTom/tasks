@@ -6,6 +6,7 @@ import { ControlPanel } from "./components/controlpanel";
 import { Panel } from "./components/panel";
 import { Graph } from "./components/graph";
 import { TableMode } from "./table/table";
+import { Tips } from "./components/tips";
 
 
 function App() {
@@ -16,10 +17,9 @@ function App() {
         {viewMode == 'graph' ? <Graph /> : null}
         {viewMode == 'table' ? <TableMode /> : null}
         <ControlPanel />
+        <Tips />
     </div>
 }
-
-
 
 
 createRoot(document.querySelector("#root") as HTMLElement)

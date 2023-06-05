@@ -99,6 +99,12 @@ export function Panel(): any {
                             Load from browser
                         </a>
                     </div>
+
+                </div>
+                <div className="navbar-item">
+                    <div className="buttons">
+                        <ButtonIcon text="Feedback" buttonClass="is-dark" iconCode={'\uE807'} onClick={() => window.open('https://github.com/MadcoreTom/tasks/issues', '_blank').focus()} />
+                    </div>
                 </div>
             </div>
             <div className="navbar-end">
