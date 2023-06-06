@@ -17,7 +17,7 @@ export function DependencyPath(props: { start: TaskType, end: TaskType }) {
 }
 
 export function TempDependencyPath(props: { start: [number, number], end: [number, number] }) {
-    return <path stroke="hsl(204, 86%, 53%)" fill="none" d={calcPath(props.start, props.end)} strokeWidth="3" strokeDasharray="5,5" />
+    return <path stroke="hsl(204, 86%, 53%)" fill="none" d={calcPath(props.start, props.end)} strokeWidth="3" strokeDasharray="5,5" style={{pointerEvents:"none"}} />
 }
 
 
