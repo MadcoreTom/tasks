@@ -1,17 +1,26 @@
 import { TaskType } from "../diagram/task";
+import { LOCAL_STORAGE } from "../util/local-storage";
 import { createDefaultStatuses, State } from "./store";
 
 const LATEST_VERSION = "v0.2"
 const HEADER = `// ${LATEST_VERSION} https://madcoretom.github.io/tasks/`
 const HEADER_PATTERN = /^\/\/\s+([v\d.]+).*/
 
-export const exportReducer = (state: State) => {
-    const lines: string[] = state.tasks.map(taskToArray).map(v => "T"+JSON.stringify(v, null, 0));
-    state.statuses.forEach(s=>lines.push("S"+JSON.stringify(statusToArray(s))));
+function saveToString(state: State): string {
+    const lines: string[] = state.tasks.map(taskToArray).map(v => "T" + JSON.stringify(v, null, 0));
+    state.statuses.forEach(s => lines.push("S" + JSON.stringify(statusToArray(s))));
     lines.unshift(HEADER);
-    const data = lines.join("\n");
+    return lines.join("\n");
+}
+
+export const exportReducer = (state: State) => {
+    const data = saveToString(state);
     console.log(data);
     download(`${state.title}.dat`, data);
+}
+export const saveLocalReducer = (state: State, action: { payload: string }) => {
+    const data = saveToString(state);
+    LOCAL_STORAGE.saveFile(action.payload, data);
 }
 
 // https://stackoverflow.com/questions/3665115/how-to-create-a-file-in-memory-for-user-to-download-but-not-through-server

@@ -7,6 +7,7 @@ import { Panel } from "./components/panel";
 import { Graph } from "./components/graph";
 import { TableMode } from "./table/table";
 import { Tips } from "./components/tips";
+import { BrowserSave } from "./components/save";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         {viewMode == 'table' ? <TableMode /> : null}
         <ControlPanel />
         <Tips />
+        <BrowserSave/>
     </div>
 }
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask, exportGraph, importGraph, RootState, setTitle, setViewMode, sort } from "../state/store";
+import { addTask, exportGraph, importGraph, RootState, setTitle, setViewMode, sort, updateSaveDialog } from "../state/store";
 import { ButtonIcon } from "./bulma";
 import { StatusesModal } from "./status.modal";
 
@@ -78,8 +78,8 @@ export function Panel(): any {
                                 Download as file
                             </span>
                         </a>
-                        <a className="navbar-item" style={{ textDecoration: "line-through" }}>
-                            Save in browser
+                        <a className="navbar-item" onClick={()=>dispatch(dispatch(updateSaveDialog({show:true,updateFiles:true})))}>
+                            Save/Load in browser
                         </a>
                         <hr className="navbar-divider" />
                         <div className="navbar-item file is-white">

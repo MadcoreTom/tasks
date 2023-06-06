@@ -45,8 +45,8 @@ export function SelectField(props: { label: string, value: string, options: stri
   </div>
 }
 
-export function ButtonIcon(props: {text:string, onClick:()=>any, iconCode:string,buttonClass?:string}){
-  return <button className={`button ${props.buttonClass}`} onClick={() => props.onClick()}>
+export function ButtonIcon(props: {text:string, onClick:()=>any, iconCode:string,buttonClass?:string,isDisabled?:boolean}){
+  return <button className={`button ${props.buttonClass}`} onClick={() => props.onClick()} disabled={props.isDisabled}>
   <span className="icon is-small">
       <i>{props.iconCode}</i>
   </span>

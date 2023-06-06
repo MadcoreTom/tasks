@@ -4,10 +4,11 @@ import { TaskType } from '../diagram/task'
 import { COLOUR_MAP } from '../util/colour';
 import { snapX, snapY } from '../util/snap';
 import { addTaskReducer } from './addtask.reducer';
-import { exportReducer, importReducer } from './export.reducer';
+import { exportReducer, importReducer, saveLocalReducer } from './export.reducer';
 import { removeTaskReducer } from './removetask.reducer';
 import { addStatusReducer, removeStausReducer, renameStatusReducer, setStatusColourReducer } from './status.reducer';
 import { updateTaskReducer } from './updateTask.reducer';
+import { LOCAL_STORAGE } from '../util/local-storage';
 
 export type SelectedType = null |
 { type: "task", idx: number, dragging?: [number, number] } |
@@ -21,7 +22,8 @@ export type State = {
     tasks: TaskType[],
     title:string,
     viewMode: 'graph' | 'table',
-    statuses: {text:string,colour:string}[]
+    statuses: {text:string,colour:string}[],
+    saveDialog: {show:boolean, files:string[]}
 }
 
 export type RootState = {
@@ -54,7 +56,8 @@ const mainSlice = createSlice({
         tasks: nodes,
         title: "Untitled",
         viewMode: 'graph',
-        statuses: createDefaultStatuses()
+        statuses: createDefaultStatuses(),
+        saveDialog: {show:false,files:[]}
     } as State,
     reducers: {
         setViewMode:(state:State,action:{payload:'graph' | 'table'})=>{
@@ -62,6 +65,12 @@ const mainSlice = createSlice({
         },
         setTitle:(state:State, action:{payload:string})=>{
             state.title = action.payload;
+        },
+        updateSaveDialog:(state:State, action:{payload:{show:boolean,updateFiles:boolean}})=>{
+            state.saveDialog.show = action.payload.show;
+            if(action.payload.updateFiles){
+                state.saveDialog.files = LOCAL_STORAGE.listFiles();
+            }
         },
         select: (state:State, action: { payload: SelectedType }) => {
             if(state.selected && state.selected.type =="linking" && action.payload && action.payload.type == "task"){
@@ -127,6 +136,7 @@ const mainSlice = createSlice({
             // loop until none left
         },
         exportGraph: exportReducer,
+        saveLocalGraph: saveLocalReducer,
         addTask: addTaskReducer,
         removeTask: removeTaskReducer,
         importGraph: importReducer,
@@ -143,4 +153,4 @@ export default configureStore({
     },
 });
 
-export const { select, updateTask, sort, exportGraph, addTask, removeTask, importGraph, setTitle, setViewMode, renameStatus, addStatus, setStatusColour, removeStatus, moveMultiTasks } = mainSlice.actions;
+export const { select, updateTask, sort, exportGraph, addTask, removeTask, importGraph, setTitle, setViewMode, renameStatus, addStatus, setStatusColour, removeStatus, moveMultiTasks, saveLocalGraph, updateSaveDialog } = mainSlice.actions;
