@@ -23,7 +23,8 @@ export type State = {
     title:string,
     viewMode: 'graph' | 'table',
     statuses: {text:string,colour:string}[],
-    saveDialog: {show:boolean, files:string[]}
+    saveDialog: {show:boolean, files:string[]},
+    offset:[number,number]
 }
 
 export type RootState = {
@@ -57,9 +58,13 @@ const mainSlice = createSlice({
         title: "Untitled",
         viewMode: 'graph',
         statuses: createDefaultStatuses(),
-        saveDialog: {show:false,files:[]}
+        saveDialog: {show:false,files:[]},
+        offset:[0,0]
     } as State,
     reducers: {
+        setOffset:(state:State, action:{payload:[number,number]})=>{
+            state.offset = [...action.payload];
+        },
         setViewMode:(state:State,action:{payload:'graph' | 'table'})=>{
             state.viewMode = action.payload;
         },
@@ -153,4 +158,4 @@ export default configureStore({
     },
 });
 
-export const { select, updateTask, sort, exportGraph, addTask, removeTask, importGraph, setTitle, setViewMode, renameStatus, addStatus, setStatusColour, removeStatus, moveMultiTasks, saveLocalGraph, updateSaveDialog } = mainSlice.actions;
+export const { select, updateTask, sort, exportGraph, addTask, removeTask, importGraph, setTitle, setViewMode, renameStatus, addStatus, setStatusColour, removeStatus, moveMultiTasks, saveLocalGraph, updateSaveDialog, setOffset } = mainSlice.actions;

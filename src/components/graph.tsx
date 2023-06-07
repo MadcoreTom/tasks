@@ -5,21 +5,20 @@ import { AddLinkButton } from "../diagram/addlink";
 import { DependencyClickable, DependencyPath, TempDependencyPath } from "../diagram/dependency";
 import { RulerGuides } from "../diagram/guides";
 import { Task, TaskType } from "../diagram/task";
-import { moveMultiTasks, RootState, select, SelectedType, updateTask } from "../state/store";
+import { moveMultiTasks, RootState, select, SelectedType, setOffset, updateTask } from "../state/store";
 
 
 export function Graph() {
     let nodes = useSelector((state: RootState) => state.main.tasks) as TaskType[];
     let selected = useSelector((state: RootState) => state.main.selected) as SelectedType;
-    let statuses = useSelector((state: RootState) => state.main.statuses)
+    let statuses = useSelector((state: RootState) => state.main.statuses);
+    let offset = useSelector((state: RootState) => state.main.offset)
     const dispatch = useDispatch();
     let [mousePos, setMousePos] = React.useState([0, 0]);
 
     const selectedIdx = (selected && selected.type == "task") ? selected.idx : -1;
     const selectedIndices = (selected && selected.type == "multi") ? selected.nodeIdx : [];
     const isMultiSelect = selectedIndices.length > 0;
-
-    let [offset, setOffset] = React.useState([0, 0]);
 
     const nodeElems = nodes.map((n, i) =>
         <Task
@@ -52,7 +51,7 @@ export function Graph() {
             const indices = selected.nodeIdx;
             dispatch(moveMultiTasks({delta:[evt.movementX,evt.movementY], indices}))
         }else if (evt.buttons > 0) {
-            setOffset([offset[0] + evt.movementX, offset[1] + evt.movementY]);
+            dispatch(setOffset([offset[0] + evt.movementX, offset[1] + evt.movementY]));
         }
         setMousePos([evt.clientX - offset[0], evt.clientY - offset[1]]);
     }
