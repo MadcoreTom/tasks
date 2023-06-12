@@ -8,7 +8,9 @@ const TIPS = [
     "Feel free to give feedback",
     "Hold Shift + drag to box-select",
     "Click me!",
-    "Honey doesn't spoil"
+    "Honey doesn't spoil",
+    "Press ESC to de-select quickly",
+    "Share you work with Import and Export"
 ]
 
 function selectRandom<T>(data: T[]): T {

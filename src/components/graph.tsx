@@ -5,7 +5,7 @@ import { AddLinkButton } from "../diagram/addlink";
 import { DependencyClickable, DependencyPath, TempDependencyPath } from "../diagram/dependency";
 import { RulerGuides } from "../diagram/guides";
 import { Task, TaskType } from "../diagram/task";
-import { moveMultiTasks, RootState, select, SelectedType, setOffset, updateTask } from "../state/store";
+import { moveMultiTasks, RootState, select, SelectedType, setOffset, setTitle, updateTask } from "../state/store";
 
 
 export function Graph() {
@@ -19,6 +19,19 @@ export function Graph() {
     const selectedIdx = (selected && selected.type == "task") ? selected.idx : -1;
     const selectedIndices = (selected && selected.type == "multi") ? selected.nodeIdx : [];
     const isMultiSelect = selectedIndices.length > 0;
+
+    React.useEffect(()=>{
+        function onKeyPress(evt:KeyboardEvent){
+            if(evt.key == "Escape"){
+                dispatch(select(null));
+            }
+        }
+        window.addEventListener("keydown", onKeyPress);
+        // cleanup
+        return ()=>{
+            window.removeEventListener("keydown", onKeyPress);
+        }
+    })
 
     const nodeElems = nodes.map((n, i) =>
         <Task
