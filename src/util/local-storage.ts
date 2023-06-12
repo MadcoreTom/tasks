@@ -14,7 +14,9 @@ class LocalStorage {
     saveFile(name: string, data: string) {
         window.localStorage.setItem(FILE + name, data);
         const files = this.listFiles();
-        window.localStorage.setItem(FILENAMES, JSON.stringify([...files, name]));
+        if (files.indexOf(name) < 0) {
+            window.localStorage.setItem(FILENAMES, JSON.stringify([...files, name]));
+        }
     }
 
     deleteFile(name: string) {

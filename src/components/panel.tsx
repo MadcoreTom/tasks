@@ -70,18 +70,20 @@ export function Panel(): any {
                         </span>
                     </a>
                     <div className="navbar-dropdown is-boxed">
+                        <a className="navbar-item" onClick={()=>dispatch(dispatch(updateSaveDialog({show:true,updateFiles:true})))}>
+                        <span className="icon">
+                            <i>{'\uE804'}</i>
+                        </span>&nbsp;Save/Load in browser
+                        </a>
+                        <hr className="navbar-divider" />
                         <a className="navbar-item" onClick={() => dispatch(exportGraph())} >
                             <span className="icon">
                                 <i>{'\uE802'}</i>
                             </span>
                             <span>
-                                Download as file
+                                Export to file
                             </span>
                         </a>
-                        <a className="navbar-item" onClick={()=>dispatch(dispatch(updateSaveDialog({show:true,updateFiles:true})))}>
-                            Save/Load in browser
-                        </a>
-                        <hr className="navbar-divider" />
                         <div className="navbar-item file is-white">
                             <label className="file-label">
                                 <input className="file-input" type="file" name="resume" onChange={evt => loadFile(evt, data => { dispatch(importGraph({ data, title: evt.target.files[0].name })); () => setSaveModal(false) })} />
@@ -90,14 +92,11 @@ export function Panel(): any {
                                         <i>{'\ue803'}</i>
                                     </span>
                                     <span className="file-label">
-                                        &nbsp;Upload
+                                        &nbsp;Import file
                                     </span>
                                 </span>
                             </label>
                         </div>
-                        <a className="navbar-item" style={{ textDecoration: "line-through" }}>
-                            Load from browser
-                        </a>
                     </div>
 
                 </div>

@@ -53,3 +53,10 @@ export function ButtonIcon(props: {text:string, onClick:()=>any, iconCode:string
   <span>{props.text}</span>
 </button>
 }
+
+
+export function Button(props: { text: string, onClick: () => any, buttonClass?: string, isDisabled?: boolean }) {
+  return <button className={`button ${props.buttonClass}`} onClick={() => props.onClick()} disabled={props.isDisabled}>
+    {props.text}
+  </button>
+}
