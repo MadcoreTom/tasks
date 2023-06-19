@@ -45,12 +45,12 @@ export function SelectField(props: { label: string, value: string, options: stri
   </div>
 }
 
-export function ButtonIcon(props: {text:string, onClick:()=>any, iconCode:string,buttonClass?:string,isDisabled?:boolean}){
-  return <button className={`button ${props.buttonClass}`} onClick={() => props.onClick()} disabled={props.isDisabled}>
+export function ButtonIcon(props: {text?:string, onClick:()=>any, iconCode:string,buttonClass?:string,isDisabled?:boolean,float?:"right"}){
+  return <button className={`button ${props.buttonClass}`} onClick={() => props.onClick()} disabled={props.isDisabled} style={{float:props.float}}>
   <span className="icon is-small">
       <i>{props.iconCode}</i>
   </span>
-  <span>{props.text}</span>
+  {props.text ? <span>{props.text}</span> : null }
 </button>
 }
 

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addTask, exportGraph, importGraph, RootState, setTitle, setViewMode, sort, updateSaveDialog } from "../state/store";
 import { ButtonIcon } from "./bulma";
 import { StatusesModal } from "./status.modal";
+import { downloadSvg } from "../util/svg-to-image";
 
 
 
@@ -97,6 +98,15 @@ export function Panel(): any {
                                 </span>
                             </label>
                         </div>
+                        <hr className="navbar-divider" />
+                        <a className="navbar-item" onClick={() => downloadSvg(document.querySelector("svg#graph") as SVGSVGElement, title + ".png")} >
+                            <span className="icon">
+                                <i>{'\uF1C5'}</i>
+                            </span>
+                            <span>
+                                Export as image (beta)
+                            </span>
+                        </a>
                     </div>
 
                 </div>

@@ -150,6 +150,7 @@ export function Graph() {
     }
 
     return <svg height="600"
+        id="graph"
         onMouseMoveCapture={onDrag}
         onMouseUp={onRelease}
         onMouseDown={onMouseDown}

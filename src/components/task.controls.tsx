@@ -13,7 +13,7 @@ export function TaskControls(){
     const statuses = useSelector((state : RootState) => state.main.statuses);
     const dispatch = useDispatch();
 
-    const [dependencyChoice,setDependencyChoice] = React.useState(0);
+    // const [dependencyChoice,setDependencyChoice] = React.useState(0);
 
     const removeDep = (idx:number)=>{
         dispatch(updateTask({...task, dependencies: task.dependencies.filter(d=>d!=idx)}))
@@ -35,7 +35,9 @@ export function TaskControls(){
             <legend>Dependencies</legend>
             <table className="table is-fullwidth">
                 <tbody>
-                {deps.map((d,i)=><tr key={i}><td>{allTasks[d].text}</td><td><button className="button is-danger is-light is-small" onClick={()=>removeDep(d)}>✖</button></td></tr>)}
+                {deps.map((d,i)=><tr key={i}><td>{allTasks[d].text}</td><td>
+                <ButtonIcon buttonClass=" is-danger is-light is-small" iconCode={"\uE808"} onClick={()=>removeDep(d)}/>
+                </td></tr>)}
               </tbody>
             </table>            
         </fieldset>

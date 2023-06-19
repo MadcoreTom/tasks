@@ -4,6 +4,7 @@ import { RootState } from "../state/store";
 import { DependencyControls } from "./dependency.controls";
 import { TaskControls } from "./task.controls";
 import { select } from "../state/store";
+import { ButtonIcon } from "./bulma";
 
 
 export function ControlPanel() {
@@ -25,7 +26,7 @@ export function ControlPanel() {
         editor = <p>Click a task or dependency to modify it here</p>
     }
 
-    const title = selected ? <span>{selected.type}<button className="button is-light is-small" onClick={()=>dispatch(select(null))} style={{float:"right"}}>✖</button></span> : "Control Panel"
+    const title = selected ? <span>{selected.type}<ButtonIcon buttonClass="is-light is-small" iconCode={"\uE808"} onClick={()=>dispatch(select(null))}float="right"/></span> : "Control Panel"
 
     return <div className="box control-panel">
         <p className="title is-4" style={{textTransform:"capitalize"}}>{title}</p>

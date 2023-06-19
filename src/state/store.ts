@@ -24,7 +24,8 @@ export type State = {
     viewMode: 'graph' | 'table',
     statuses: {text:string,colour:string}[],
     saveDialog: {show:boolean, files:string[]},
-    offset:[number,number]
+    offset:[number,number],
+    dataTypes:{[name:string]:DataType}
 }
 
 export type RootState = {
@@ -49,6 +50,16 @@ export function createDefaultStatuses(): { text: string, colour: string }[] {
     ]
 }
 
+export type DataType = {
+    name: string,
+    options: {[key:string]:DataTypeItem}
+}
+
+export type DataTypeItem = {
+    key: string,
+    colour: string
+}
+
 
 const mainSlice = createSlice({
     name: "main",
@@ -58,8 +69,25 @@ const mainSlice = createSlice({
         title: "Untitled",
         viewMode: 'graph',
         statuses: createDefaultStatuses(),
-        saveDialog: {show:false,files:[]},
-        offset:[0,0]
+        saveDialog: { show: false, files: [] },
+        offset: [0, 0],
+        dataTypes: {
+            "STATUS": {
+                name: "STATUS",
+                options: {
+                    "NEW": { key: "NEW", colour: "#00ff00" },
+                    "DONE": { key: "NEW", colour: "#8888ff" },
+                    "BLOCKED": { key: "NEW", colour: "#ffff00" }
+                }
+            },
+            "ASSIGNEE": {
+                name: "ASSIGNEE",
+                options: {
+                    "BILLY": { key: "BILLY", colour: "#8888ff" },
+                    "MANDY": { key: "MANDY", colour: "#ff8888" }
+                }
+            }
+        }
     } as State,
     reducers: {
         setOffset:(state:State, action:{payload:[number,number]})=>{
