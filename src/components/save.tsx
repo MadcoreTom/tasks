@@ -130,13 +130,13 @@ function BrowserSave(props: { initialName: string, files: string[], showNew: boo
 }
 
 function NewDialog(props: {}): JSX.Element {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     return <section className="modal-card-body new-section">
         <p>Welcome!<br/>Create a new graph or open an existing one</p>
         <div className="field is-grouped">
             <p className="control">
-                <Button text="New" buttonClass="is-info" onClick={() => { }} />
+                <Button text="New" buttonClass="is-info" onClick={() =>dispatch(updateSaveDialog({ show: false, updateFiles: false }))} />
             </p>
             <ImportButton/>
         </div>
