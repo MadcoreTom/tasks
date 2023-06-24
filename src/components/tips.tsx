@@ -10,7 +10,8 @@ const TIPS = [
     "Click me!",
     "Honey doesn't spoil",
     "Press ESC to de-select quickly",
-    "Share you work with Import and Export"
+    "Share you work with Import and Export",
+    "You can export as an image"
 ]
 
 function selectRandom<T>(data: T[]): T {

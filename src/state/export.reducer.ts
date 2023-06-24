@@ -57,6 +57,7 @@ export const importReducer = (state: State, action: { payload: { data: string, t
 
     const dot = action.payload.title.lastIndexOf(".");
     state.title = dot > 0 ? action.payload.title.substring(0, dot) : action.payload.title;
+    state.saveDialog.show = false
 }
 
 function importv01(lines: string[], state: State) {

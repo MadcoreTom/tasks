@@ -23,7 +23,7 @@ export type State = {
     title:string,
     viewMode: 'graph' | 'table',
     statuses: {text:string,colour:string}[],
-    saveDialog: {show:boolean, files:string[]},
+    saveDialog: {show:boolean, files:string[], showNew:boolean},
     offset:[number,number],
     dataTypes:{[name:string]:DataType}
 }
@@ -69,7 +69,7 @@ const mainSlice = createSlice({
         title: "Untitled",
         viewMode: 'graph',
         statuses: createDefaultStatuses(),
-        saveDialog: { show: false, files: [] },
+        saveDialog: { show: true, files: LOCAL_STORAGE.listFiles(), showNew: true },
         offset: [0, 0],
         dataTypes: {
             "STATUS": {
@@ -101,6 +101,7 @@ const mainSlice = createSlice({
         },
         updateSaveDialog:(state:State, action:{payload:{show:boolean,updateFiles:boolean}})=>{
             state.saveDialog.show = action.payload.show;
+            state.saveDialog.showNew = false;
             if(action.payload.updateFiles){
                 state.saveDialog.files = LOCAL_STORAGE.listFiles();
             }

@@ -1,9 +1,10 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask, exportGraph, importGraph, RootState, setTitle, setViewMode, sort, updateSaveDialog } from "../state/store";
+import { addTask, exportGraph, RootState, setTitle, setViewMode, sort, updateSaveDialog } from "../state/store";
 import { ButtonIcon } from "./bulma";
 import { StatusesModal } from "./status.modal";
 import { downloadSvg } from "../util/svg-to-image";
+import { ImportButton } from "./import.button";
 
 
 
@@ -86,17 +87,7 @@ export function Panel(): any {
                             </span>
                         </a>
                         <div className="navbar-item file is-white">
-                            <label className="file-label">
-                                <input className="file-input" type="file" name="resume" onChange={evt => loadFile(evt, data => { dispatch(importGraph({ data, title: evt.target.files[0].name })); () => setSaveModal(false) })} />
-                                <span className="file-cta">
-                                    <span className="icon is-small">
-                                        <i>{'\ue803'}</i>
-                                    </span>
-                                    <span className="file-label">
-                                        &nbsp;Import file
-                                    </span>
-                                </span>
-                            </label>
+                            <ImportButton/>
                         </div>
                         <hr className="navbar-divider" />
                         <a className="navbar-item" onClick={() => downloadSvg(document.querySelector("svg#graph") as SVGSVGElement, title + ".png")} >
@@ -126,23 +117,4 @@ export function Panel(): any {
         </div>
         {statusDialogOpen ? <StatusesModal onClose={() => setStatusDialogOpen(false)} /> : null}
     </nav>
-}
-
-
-
-function loadFile(evt: React.ChangeEvent<HTMLInputElement>, callback: (data: string) => any) {
-    if (evt.target.files) {
-        var reader = new FileReader();
-        reader.onload = function (evt) {
-            if (!evt.target || evt.target.readyState != 2) return;
-            if (evt.target.error) {
-                alert('Error while reading file');
-                return;
-            }
-            if (evt.target.result) {
-                callback(evt.target.result.toString());
-            }
-        };
-        reader.readAsText(evt.target.files[0]);
-    }
 }
