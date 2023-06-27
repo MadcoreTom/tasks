@@ -7,6 +7,9 @@ export const addStatusReducer = (state: State) => {
         newName = `New State ${++attempt}`;
     }
     state.statuses = [...state.statuses, { text: newName, colour: "red" }]
+    if (state.autosave) {
+        state.autosaveChanges++;
+    }
 }
 
 export const renameStatusReducer = (state: State, action: { payload: { from: string, to: string } }) => {
@@ -30,6 +33,9 @@ export const renameStatusReducer = (state: State, action: { payload: { from: str
             return t;
         })
     }
+    if (state.autosave) {
+        state.autosaveChanges++;
+    }
 }
 
 export const setStatusColourReducer = (state: State, action: { payload: { status: string, colour: string } }) => {
@@ -41,6 +47,9 @@ export const setStatusColourReducer = (state: State, action: { payload: { status
         }
         return t;
     })
+    if (state.autosave) {
+        state.autosaveChanges++;
+    }
 }
 
 export const removeStausReducer = (state: State, action: { payload: string }) => {
@@ -50,5 +59,8 @@ export const removeStausReducer = (state: State, action: { payload: string }) =>
         state.statuses = state.statuses.filter(s => s.text != status);
     } else {
         console.warn("There are existing tasks with this status");
+    }
+    if (state.autosave) {
+        state.autosaveChanges++;
     }
 }

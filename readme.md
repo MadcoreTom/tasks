@@ -24,6 +24,9 @@ This is followed by JSON array lines, with possibly nested arrays (less repeatin
 
 An attempt to untangle/order dependencies. (incomplete)
 
+# Autosave
+A de-bounced method to trigger saving, using the `<Autosave/>` component 
+
 # Controls
 
 * Click to select a Task or Dependency

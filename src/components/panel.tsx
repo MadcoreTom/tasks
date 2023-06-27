@@ -5,6 +5,7 @@ import { ButtonIcon } from "./bulma";
 import { StatusesModal } from "./status.modal";
 import { downloadSvg } from "../util/svg-to-image";
 import { ImportButton } from "./import.button";
+import { Autosave } from "./autosave";
 
 
 
@@ -106,6 +107,7 @@ export function Panel(): any {
                         <ButtonIcon text="Feedback" buttonClass="is-dark" iconCode={'\uE807'} onClick={() => window.open('https://github.com/MadcoreTom/tasks/issues', '_blank').focus()} />
                     </div>
                 </div>
+                <Autosave/>
             </div>
             <div className="navbar-end">
                 <div className="navbar-item">

@@ -16,4 +16,7 @@ export const removeTaskReducer = (state: State, action: { payload: number }) => 
     if(state.selected && state.selected.type == "task" && state.selected.idx == action.payload){
         state.selected = null;
     }
+    if (state.autosave) {
+        state.autosaveChanges++;
+    }
 }

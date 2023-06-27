@@ -1,4 +1,3 @@
-import { NAVBAR_HEIGHT_PX } from "../constants";
 import { TOP_MARGIN } from "../constants";
 import { TASK_HEIGHT, TASK_WIDTH } from "../constants";
 import { TaskType } from "../diagram/task";
@@ -15,4 +14,7 @@ export const addTaskReducer = (state: State) => {
     }
     state.tasks = [...state.tasks, newTask];
    state.selected = {type:"task", idx: state.tasks.length-1};
+    if (state.autosave) {
+        state.autosaveChanges++;
+    }
 }

@@ -23,6 +23,15 @@ export const saveLocalReducer = (state: State, action: { payload: string }) => {
     LOCAL_STORAGE.saveFile(action.payload, data);
 }
 
+export const autosaveReducer = (state: State) => {
+    if (state.autosave) {
+        console.log("Save");
+        const data = saveToString(state);
+        LOCAL_STORAGE.saveFile(state.title, data);
+        state.autosaveChanges = 0;
+    }
+}
+
 // https://stackoverflow.com/questions/3665115/how-to-create-a-file-in-memory-for-user-to-download-but-not-through-server
 function download(filename, text) {
     var element = document.createElement('a');
@@ -58,6 +67,7 @@ export const importReducer = (state: State, action: { payload: { data: string, t
     const dot = action.payload.title.lastIndexOf(".");
     state.title = dot > 0 ? action.payload.title.substring(0, dot) : action.payload.title;
     state.saveDialog.show = false
+    state.autosave = false;
 }
 
 function importv01(lines: string[], state: State) {

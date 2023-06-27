@@ -4,7 +4,7 @@ import { TaskType } from '../diagram/task'
 import { COLOUR_MAP } from '../util/colour';
 import { snapX, snapY } from '../util/snap';
 import { addTaskReducer } from './addtask.reducer';
-import { exportReducer, importReducer, saveLocalReducer } from './export.reducer';
+import { autosaveReducer, exportReducer, importReducer, saveLocalReducer } from './export.reducer';
 import { removeTaskReducer } from './removetask.reducer';
 import { addStatusReducer, removeStausReducer, renameStatusReducer, setStatusColourReducer } from './status.reducer';
 import { updateTaskReducer } from './updateTask.reducer';
@@ -25,7 +25,9 @@ export type State = {
     statuses: {text:string,colour:string}[],
     saveDialog: {show:boolean, files:string[], showNew:boolean},
     offset:[number,number],
-    dataTypes:{[name:string]:DataType}
+    dataTypes:{[name:string]:DataType},
+    autosave: boolean,
+    autosaveChanges:number
 }
 
 export type RootState = {
@@ -88,7 +90,9 @@ const mainSlice = createSlice({
                     "MANDY": { key: "MANDY", colour: "#ff8888" }
                 }
             }
-        }
+        },
+        autosave: false,
+        autosaveChanges : 0
     } as State,
     reducers: {
         setOffset:(state:State, action:{payload:[number,number]})=>{
@@ -99,6 +103,13 @@ const mainSlice = createSlice({
         },
         setTitle:(state:State, action:{payload:string})=>{
             state.title = action.payload;
+            state.autosave = false;
+        },
+        setAutosave: (state: State, action: { payload: boolean }) => {
+            state.autosave = action.payload
+            if(state.autosave) {
+                state.autosaveChanges = 1;
+            }
         },
         updateSaveDialog:(state:State, action:{payload:{show:boolean,updateFiles:boolean}})=>{
             state.saveDialog.show = action.payload.show;
@@ -139,7 +150,10 @@ const mainSlice = createSlice({
                     x: state.tasks[i].x + action.payload.delta[0],
                     y: state.tasks[i].y + action.payload.delta[1]
                 }
-            })
+            });
+            if (state.autosave) {
+                state.autosaveChanges++;
+            }
         },
         sort: (state: State) => {
             console.log("Sort");
@@ -169,6 +183,9 @@ const mainSlice = createSlice({
             // move to right of dependencies
 
             // loop until none left
+            if (state.autosave) {
+                state.autosaveChanges++;
+            }
         },
         exportGraph: exportReducer,
         saveLocalGraph: saveLocalReducer,
@@ -178,7 +195,8 @@ const mainSlice = createSlice({
         renameStatus: renameStatusReducer,
         addStatus: addStatusReducer,
         setStatusColour: setStatusColourReducer,
-        removeStatus:removeStausReducer
+        removeStatus:removeStausReducer,
+        autosave: autosaveReducer
     }
 });
 
@@ -188,4 +206,4 @@ export default configureStore({
     },
 });
 
-export const { select, updateTask, sort, exportGraph, addTask, removeTask, importGraph, setTitle, setViewMode, renameStatus, addStatus, setStatusColour, removeStatus, moveMultiTasks, saveLocalGraph, updateSaveDialog, setOffset } = mainSlice.actions;
+export const { select, setAutosave, autosave, updateTask, sort, exportGraph, addTask, removeTask, importGraph, setTitle, setViewMode, renameStatus, addStatus, setStatusColour, removeStatus, moveMultiTasks, saveLocalGraph, updateSaveDialog, setOffset } = mainSlice.actions;
