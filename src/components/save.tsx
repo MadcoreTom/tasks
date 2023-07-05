@@ -37,6 +37,10 @@ function BrowserSave(props: { initialName: string, files: string[], showNew: boo
     const files = props.files;
     const selectedInList = !!selected && files.indexOf(selected) >= 0;
 
+    function close(){
+        dispatch(updateSaveDialog({ show: false, updateFiles: false }));
+    }
+
     function saveAs() {
         if (!selectedInList && selected != undefined && selected.length > 0) {
             dispatch(saveLocalGraph(selected));

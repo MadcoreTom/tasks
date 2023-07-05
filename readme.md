@@ -11,7 +11,7 @@ Some of these are new
 * **build** - esbuild
 * **framework** - react
 * **drawing** - svg
-* **style** - bulma
+* **style** - Primer
 * **repo/pipeline** - github
 * **hosting** - github pages
 
@@ -60,3 +60,6 @@ download
 upload
 attention-circled
 ```
+
+## Other notes
+Here's a link to the Octicon icons: https://primer.style/design/foundations/icons

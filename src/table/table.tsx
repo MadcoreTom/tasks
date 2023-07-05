@@ -1,8 +1,9 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SelectField, TextArea } from "../components/bulma";
+import { TextArea } from "../components/bulma";
 import { TaskType } from "../diagram/task";
 import { RootState, select, SelectedType, updateTask } from "../state/store";
+import { Dropdown } from "../components/dropdown";
 
 export function TableMode() {
     const tasks = useSelector((state: RootState) => state.main.tasks);
@@ -57,7 +58,7 @@ function TableRowEditable(task: TaskType, idx: number) {
         </td>
         <td>{task.link ? task.link.text : null}</td>
         <td>
-            <SelectField label="Status" value={task.status} options={statuses.map(s => s.text)} onChange={val => dispatch(updateTask({ ...task, status: val }))} />
+            <Dropdown label="Status" selected={task.status} options={statuses.map(s => [s.text,s.text])} onSelect={val => dispatch(updateTask({ ...task, status: val }))} />
         </td>
         <td>
         </td>

@@ -32,18 +32,18 @@ export function CheckboxField(props: { label: string, checked: boolean, onChange
   </div>
 }
 
-export function SelectField(props: { label: string, value: string, options: string[], values?: string[], onChange: (value: string) => any }) {
-  return <div className="field">
-    <label className="label">{props.label}</label>
-    <div className="control">
-      <div className="select">
-        <select value={props.value} onChange={e => props.onChange(e.target.value)}>
-          {props.options.map((t, i) => <option value={props.values ? props.values[i] : t} key={i}>{t}</option>)}
-        </select>
-      </div>
-    </div>
-  </div>
-}
+// export function SelectField(props: { label: string, value: string, options: string[], values?: string[], onChange: (value: string) => any }) {
+//   return <div className="field">
+//     <label className="label">{props.label}</label>
+//     <div className="control">
+//       <div className="select">
+//         <select value={props.value} onChange={e => props.onChange(e.target.value)}>
+//           {props.options.map((t, i) => <option value={props.values ? props.values[i] : t} key={i}>{t}</option>)}
+//         </select>
+//       </div>
+//     </div>
+//   </div>
+// }
 
 export function ButtonIcon(props: {text?:string, onClick:()=>any, iconCode:string,buttonClass?:string,isDisabled?:boolean,float?:"right"}){
   return <button className={`button ${props.buttonClass}`} onClick={() => props.onClick()} disabled={props.isDisabled} style={{float:props.float}}>
