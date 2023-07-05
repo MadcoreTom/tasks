@@ -6,6 +6,7 @@ import { StatusesModal } from "./status.modal";
 import { downloadSvg } from "../util/svg-to-image";
 import { ImportButton } from "./import.button";
 import { Autosave } from "./autosave";
+import { Checkbox, FormControl } from "@primer/react";
 
 
 

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { importGraph, RootState, saveLocalGraph, setTitle, updateSaveDialog } from "../state/store";
-import { Button, TextField } from "./bulma";
 import { LOCAL_STORAGE } from "../util/local-storage";
 import { ImportButton } from "./import.button";
+import { Box, Button, ButtonGroup, FormControl, Octicon, TextInput, TreeView } from "@primer/react";
 
 export function BrowserSaveContainer() {
     const saveDialogState = useSelector((state: RootState) => state.main.saveDialog);
@@ -22,11 +22,6 @@ function BrowserSave(props: { initialName: string, files: string[], showNew: boo
     const dispatch = useDispatch();
 
     const files = props.files;
-
-    const options = files.map((f, i) => {
-        return <option value={f} key={i}>{f}</option>
-    });
-
     const selectedInList = !!selected && files.indexOf(selected) >= 0;
 
     function close() {
@@ -41,7 +36,6 @@ function BrowserSave(props: { initialName: string, files: string[], showNew: boo
             close();
         }
     }
-
     
     function saveOver() {
         if (selectedInList) {
@@ -73,35 +67,25 @@ function BrowserSave(props: { initialName: string, files: string[], showNew: boo
     let newSection:JSX.Element | null = null;
     let saveLoadOptions:JSX.Element;
     let setName:JSX.Element | null = null;
-    let openBlurb: string;
 
     if (props.showNew) {
         title = "New";
-        openBlurb = "These are stored in your browser";
         newSection = <NewDialog />
-        saveLoadOptions = <div className="field is-grouped">
-            <p className="control" style={{marginTop:"10px"}}>
-                <Button text="Load" buttonClass="" onClick={load} isDisabled={!selectedInList} />
-            </p>
-        </div>
+        saveLoadOptions = <ButtonGroup sx={{ p: 2 }}>
+            <Button onClick={load} disabled={!selectedInList}>Load</Button>
+        </ButtonGroup>
     } else {
         title = "Browser Storage";
-        openBlurb = "Select existing file from the list, or enter a new name below:";
-        saveLoadOptions = <div className="field is-grouped">
-            <p className="control">
-                <Button text="Load" buttonClass="is-info" onClick={load} isDisabled={!selectedInList} />
-            </p>
-            <p className="control">
-                <Button text="Save Over" buttonClass="is-warning" onClick={saveOver} isDisabled={!selectedInList} />
-            </p>
-            <p className="control">
-                <Button text="Delete" buttonClass="is-danger" onClick={deleteSave} isDisabled={!selectedInList} />
-            </p>
-            <p className="control">
-                <Button text="Save As" buttonClass="is-info" onClick={saveAs} isDisabled={selectedInList || selected == undefined} />
-            </p>
-        </div>
-        setName = <TextField label="Name" value={"" + selected} onChange={value => setSelected(value)} />
+        saveLoadOptions = <ButtonGroup sx={{ p: 2 }}>
+            <Button onClick={load} disabled={!selectedInList} >Load</Button>
+            <Button onClick={saveOver} disabled={!selectedInList}>Save</Button>
+            <Button onClick={deleteSave} variant="danger" disabled={!selectedInList}>Delete</Button>
+            <Button onClick={saveAs} disabled={selectedInList || selected == undefined}>Save As</Button>
+        </ButtonGroup>
+        setName = <FormControl sx={{ p: 2 }}>
+            <FormControl.Label>Name</FormControl.Label>
+            <TextInput value={"" + selected} onChange={evt => setSelected(evt.target.value)}  sx={{width: "100%"}} />
+        </FormControl> 
     }
 
 
@@ -112,18 +96,13 @@ function BrowserSave(props: { initialName: string, files: string[], showNew: boo
                 <p className="modal-card-title">{title}</p>
                 <button className="delete" aria-label="close" onClick={close} />
             </header>
-            <div style={{display:"flex"}}>
-            {newSection}
-            <section className="modal-card-body browser-storage">
-                <div>{openBlurb}</div>
-                <div className="select is-multiple">
-                    <select multiple size={8} onChange={change => setSelected(change.target.value)} value={selectedInList ? [selected] : []}>
-                        {options}
-                    </select>
-                </div>
-                {setName}
-                {saveLoadOptions}
-            </section>
+            <div style={{ display: "flex" }}>
+                {newSection}
+                <section className="modal-card-body browser-storage" style={{ minWidth: 200, minHeight: 200 }}>
+                    <FileList selected={selected} files={files} setSelected={setSelected} />
+                    {setName}
+                    {saveLoadOptions}
+                </section>
             </div>
         </div>
     </div>
@@ -136,9 +115,39 @@ function NewDialog(props: {}): JSX.Element {
         <p>Welcome!<br/>Create a new graph or open an existing one</p>
         <div className="field is-grouped">
             <p className="control">
-                <Button text="New" buttonClass="is-info" onClick={() =>dispatch(updateSaveDialog({ show: false, updateFiles: false }))} />
+                <Button variant="primary" onClick={() => dispatch(updateSaveDialog({ show: false, updateFiles: false }))} >New</Button>
             </p>
             <ImportButton/>
         </div>
     </section>
+}
+
+function FileList(props: { selected: string, files: string[], setSelected: (selected: string) => void }) {
+    const { selected, files, setSelected } = props;
+    const optionItems = files.map((f, i) => {
+        return <TreeView.Item id={`file.${i}.${f}`} key={i}
+            onSelect={() => setSelected(f)}
+            current={f == selected}>
+            <TreeView.LeadingVisual>
+                {/* <FileIcon /> */}icon
+            </TreeView.LeadingVisual>
+            {f}
+        </TreeView.Item>
+    });
+
+    return <Box sx={{ minWidth: 200, minHeight: 300, borderWidth: 1, borderStyle: 'solid', borderColor: 'border.default', p: 2 }}>
+        <nav aria-label="Files">
+            <TreeView aria-label="Files">
+                <TreeView.Item id="files.root" expanded={true}>
+                    <TreeView.LeadingVisual>
+                        <TreeView.DirectoryIcon />
+                    </TreeView.LeadingVisual>
+                    Browser Storage
+                    <TreeView.SubTree>
+                        {optionItems}
+                    </TreeView.SubTree>
+                </TreeView.Item>
+            </TreeView>
+        </nav>
+    </Box>
 }

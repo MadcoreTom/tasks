@@ -8,19 +8,20 @@ import { Graph } from "./components/graph";
 import { TableMode } from "./table/table";
 import { Tips } from "./components/tips";
 import { BrowserSaveContainer } from "./components/save";
+import {ThemeProvider} from '@primer/react'
 
 
 function App() {
     const viewMode = useSelector((state: RootState) => state.main.viewMode);
 
-    return <div className="main">
+    return <ThemeProvider><div className="main">
     <Panel />
         {viewMode == 'graph' ? <Graph /> : null}
         {viewMode == 'table' ? <TableMode /> : null}
         <ControlPanel />
         <Tips />
         <BrowserSaveContainer/>
-    </div>
+    </div></ThemeProvider>
 }
 
 
