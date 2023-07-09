@@ -5,6 +5,7 @@ import { DependencyControls } from "./dependency.controls";
 import { TaskControls } from "./task.controls";
 import { select } from "../state/store";
 import { ButtonIcon } from "./bulma";
+import { Box } from "@primer/react";
 
 
 export function ControlPanel() {
@@ -28,8 +29,8 @@ export function ControlPanel() {
 
     const title = selected ? <span>{selected.type}<ButtonIcon buttonClass="is-light is-small" iconCode={"\uE808"} onClick={()=>dispatch(select(null))}float="right"/></span> : "Control Panel"
 
-    return <div className="box control-panel">
+    return <Box className="control-panel" sx={{p:2}}>
         <p className="title is-4" style={{textTransform:"capitalize"}}>{title}</p>
         {editor}
-    </div>
+    </Box>
 }

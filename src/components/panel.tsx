@@ -6,118 +6,85 @@ import { StatusesModal } from "./status.modal";
 import { downloadSvg } from "../util/svg-to-image";
 import { ImportButton } from "./import.button";
 import { Autosave } from "./autosave";
-import { Checkbox, FormControl } from "@primer/react";
+import { ActionList, ActionMenu, Avatar, Button, Header, Octicon, TextInput } from "@primer/react";
+import { PlusCircleIcon } from "@primer/octicons-react";
 
 
 
-export function Panel(): any {
+export function HeaderBar(): any {
     const dispatch = useDispatch();
     const viewMode = useSelector((state: RootState) => state.main.viewMode);
     const title = useSelector((state: RootState) => state.main.title);
-    const [isRenaming, setRenaming] = React.useState(false);
     const [statusDialogOpen, setStatusDialogOpen] = React.useState(false);
 
-    let titleElem = <div className="navbar-item" onClick={() => setRenaming(true)} style={{ cursor: "cell" }}>"{title}"</div>;
-    if (isRenaming) {
-        titleElem = <div className="navbar-item">
-            <input className="input" type="text" value={title} onChange={evt => dispatch(setTitle(evt.target.value))} style={{ width: "150px" }}
-                onBlur={() => setRenaming(false)}
-            />
-        </div>;
-    }
-
-    return <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
-        <div className="navbar-brand">
-            <h1 className="app-name">Tasks</h1>
-        </div>
-        <div className="navbar-menu">
-            <div className="navbar-start">
-                {titleElem}
-                <div className="navbar-item has-dropdown is-hoverable">
-                    <a className="navbar-link">
-                        Edit
-                    </a>
-                    <div className="navbar-dropdown is-boxed">
-                        <a className="navbar-item" onClick={() => setRenaming(true)} >
-                            Rename
-                        </a>
-                        <a className="navbar-item" onClick={() => setStatusDialogOpen(true)} >
-                            Edit Statuses
-                        </a>
-                        <a className="navbar-item" onClick={() => dispatch(sort())}>
+    return <Header>
+        <Header.Item>
+            <Header.Item>
+                <span className="app-name">Tasks</span>
+            </Header.Item>
+        </Header.Item>
+        <HeaderFileName title={title} setTitle={t => dispatch(setTitle(t))} />
+        <Header.Item full></Header.Item>
+        <Header.Item>
+            <ActionMenu>
+                <ActionMenu.Button>Menu</ActionMenu.Button>
+                <ActionMenu.Overlay>
+                    <ActionList>
+                        <ActionList.Item onSelect={() => setStatusDialogOpen(true)}>Edit Statuses</ActionList.Item>
+                        <ActionList.Item onSelect={() => dispatch(sort())}>Sort</ActionList.Item>
+                        <ActionList.Divider />
+                        <ActionList.Group title="View" selectionVariant="single">
+                            <ActionList.Item selected={viewMode == 'graph'} onSelect={() => dispatch(setViewMode('graph'))}>
+                                Dependency Graph
+                            </ActionList.Item>
+                            <ActionList.Item selected={viewMode == 'table'} onSelect={() => dispatch(setViewMode('table'))}>
+                                Table
+                            </ActionList.Item>
+                        </ActionList.Group>
+                        <ActionList.Divider />
+                        <ActionList.Item onClick={() => dispatch(dispatch(updateSaveDialog({ show: true, updateFiles: true })))}>
                             <span className="icon">
-                                <i>{'\uF15D'}</i>
-                            </span>
-                            <span>
-                                Sort
-                            </span>
-                        </a>
-                    </div>
-                </div>
-                <div className="navbar-item has-dropdown is-hoverable">
-                    <a className="navbar-link">
-                        Mode
-                    </a>
-                    <div className="navbar-dropdown is-boxed">
-                        <a className={"navbar-item " + (viewMode == 'graph' ? 'is-active' : '')} onClick={() => dispatch(setViewMode('graph'))}>
-                            Dependency Graph
-                        </a>
-                        <a className={"navbar-item " + (viewMode == 'table' ? 'is-active' : '')} onClick={() => dispatch(setViewMode('table'))}>
-                            Table
-                        </a>
-                    </div>
-                </div>
-                <div className="navbar-item has-dropdown is-hoverable">
-                    <a className="navbar-link">
-                        <span className="icon">
-                            <i>{'\uE804'}</i>
-                        </span>
-                    </a>
-                    <div className="navbar-dropdown is-boxed">
-                        <a className="navbar-item" onClick={()=>dispatch(dispatch(updateSaveDialog({show:true,updateFiles:true})))}>
-                        <span className="icon">
-                            <i>{'\uE804'}</i>
-                        </span>&nbsp;Save/Load in browser
-                        </a>
-                        <hr className="navbar-divider" />
-                        <a className="navbar-item" onClick={() => dispatch(exportGraph())} >
-                            <span className="icon">
-                                <i>{'\uE802'}</i>
-                            </span>
-                            <span>
-                                Export to file
-                            </span>
-                        </a>
-                        <div className="navbar-item file is-white">
-                            <ImportButton/>
-                        </div>
-                        <hr className="navbar-divider" />
-                        <a className="navbar-item" onClick={() => downloadSvg(document.querySelector("svg#graph") as SVGSVGElement, title + ".png")} >
-                            <span className="icon">
-                                <i>{'\uF1C5'}</i>
-                            </span>
-                            <span>
-                                Export as image (beta)
-                            </span>
-                        </a>
-                    </div>
-
-                </div>
-                <div className="navbar-item">
-                    <div className="buttons">
-                        <ButtonIcon text="Feedback" buttonClass="is-dark" iconCode={'\uE807'} onClick={() => window.open('https://github.com/MadcoreTom/tasks/issues', '_blank').focus()} />
-                    </div>
-                </div>
-                <Autosave/>
-            </div>
-            <div className="navbar-end">
-                <div className="navbar-item">
-                    <div className="buttons">
-                        <ButtonIcon text="Add Task" buttonClass="is-success" iconCode={'\uE800'} onClick={() => dispatch(addTask())} />
-                    </div>
-                </div>
-            </div>
-        </div>
+                                <i>{'\uE804'}</i>
+                            </span>&nbsp;Save/Load
+                        </ActionList.Item>
+                        <ActionList.Item onClick={() => dispatch(exportGraph())} >
+                            Export to file
+                        </ActionList.Item>
+                        <ActionList.Item >
+                            <ImportButton />
+                        </ActionList.Item>
+                        <ActionList.Item onClick={() => downloadSvg(document.querySelector("svg#graph") as SVGSVGElement, title + ".png")} >
+                            Export as image (beta)
+                        </ActionList.Item>
+                    </ActionList>
+                </ActionMenu.Overlay>
+            </ActionMenu>
+        </Header.Item>
+                    <Autosave/>
+        <Header.Item sx={{ mr: 0 }}>
+            <Button onClick={() => dispatch(addTask())}><PlusCircleIcon /> Add Task</Button>
+        </Header.Item>
         {statusDialogOpen ? <StatusesModal onClose={() => setStatusDialogOpen(false)} /> : null}
-    </nav>
+    </Header>
+}
+
+/**
+ * The fielname, which is editable if you click it
+ */
+function HeaderFileName(props: { title: string, setTitle: (title: string) => void }) {
+    const [isRenaming, setRenaming] = React.useState(false);
+
+    if (isRenaming) {
+        return <Header.Item>
+            <TextInput
+                aria-label="FileName"
+                name="file-name"
+                placeholder="Untitled"
+                value={props.title}
+                onChange={evt => props.setTitle(evt.target.value)}
+                onBlur={() => setRenaming(false)} />
+        </Header.Item>;
+    } else {
+        return <Header.Item onClick={() => setRenaming(true)} sx={{ cursor: "cell" }}>"{props.title}"</Header.Item>
+    }
 }
