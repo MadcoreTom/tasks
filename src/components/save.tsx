@@ -21,7 +21,7 @@ export function BrowserSaveContainer() {
             onDismiss={() => dispatch(updateSaveDialog({ show: false, updateFiles: false }))}
             aria-labelledby="header-id"  >
             <Dialog.Header id="header-id">{saveDialogState.showNew ? "New" : "Files"}</Dialog.Header>
-            <Box>
+            <Box sx={{p:2}}>
                 <BrowserSave initialName={title} files={saveDialogState.files} showNew={saveDialogState.showNew} />
             </Box>
         </Dialog> 
@@ -99,7 +99,7 @@ function BrowserSave(props: { initialName: string, files: string[], showNew: boo
     }
 
 
-    return <div style={{ display: "flex" }}>
+    return <div style={{ display: "grid", gridTemplateColumns: newSection ?"1fr 1fr" : "1fr" }}>
         {newSection}
         <section className="modal-card-body browser-storage">
             <FileList selected={selected} files={files} setSelected={setSelected} />
