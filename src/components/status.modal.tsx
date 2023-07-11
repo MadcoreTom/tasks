@@ -96,8 +96,8 @@ export function StatusesModal(props: { onClose: () => any }) {
 
 function ColourPicker(props: { selected: string, onSelect: (colour: string) => void }) {
     // TODO make an actual class for these items
-    return <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
-        {COLOUR_LIST.map((c,i) => <Box key={i} sx={{ height: 20, backgroundColor: c, textAlign: "center"}} onClick={() => props.onSelect(c)}>{props.selected == c ? <CheckIcon /> : null}</Box>)}
+    return <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }} className="colour-picker">
+        {COLOUR_LIST.map((c,i) => <Box key={i} sx={{ height: 20, backgroundColor: c}} onClick={() => props.onSelect(c)}>{props.selected == c ? <CheckIcon /> : null}</Box>)}
     </Box>
 }
 

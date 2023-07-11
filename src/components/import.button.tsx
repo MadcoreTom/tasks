@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
 import { importGraph } from "../state/store";
+import { Button } from "@primer/react";
 
 export function ImportButton() {
     const dispatch = useDispatch();
@@ -13,17 +14,7 @@ export function ImportButton() {
         });
     }
 
-    return <label className="file-label">
-        <input className="file-input" type="file" name="resume" onChange={importFunc} />
-        <span className="file-cta">
-            <span className="icon is-small">
-                <i>{'\ue803'}</i>
-            </span>
-            <span className="file-label">
-                &nbsp;Import file
-            </span>
-        </span>
-    </label>
+    return <Button as="Input" className="file-input" type="file" name="resume" onChange={importFunc}>Import File</Button>
 }
 
 

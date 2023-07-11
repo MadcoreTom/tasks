@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, autosave, setAutosave } from "../state/store";
-import { CheckboxField } from "./bulma";
+import { Checkbox, FormControl } from "@primer/react";
 
 let timer:number|null = null;
 
@@ -22,7 +22,8 @@ export function Autosave(): JSX.Element {
 
     const text = `Autosave ${autosaveEnabled ? (autosaveChanges <= 0 ? '😎' : '⏲') : ''}`;
 
-    return <div className="navbar-item">
-        <CheckboxField label={text} checked={autosaveEnabled} onChange={evt => dispatch(setAutosave(evt))} />
-    </div>
+    return <FormControl>
+        <Checkbox checked={autosaveEnabled} onChange={evt => dispatch(setAutosave(evt.target.checked))} />
+        <FormControl.Label>{text}</FormControl.Label>
+    </FormControl>
 }

@@ -1,8 +1,7 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeTask, RootState, State, updateTask } from "../state/store";
-import { CheckboxField, TextField } from "./bulma";
-import { Button, FormControl, Textarea, Token } from "@primer/react";
+import { Button, Checkbox, FormControl, TextInput, Textarea, Token } from "@primer/react";
 import { Dropdown } from "./dropdown";
 
 export function TaskControls() {
@@ -23,8 +22,14 @@ export function TaskControls() {
     let linkElem: any = null;
     if (link != undefined) {
         linkElem = <div>
-            <TextField label="Link Text" value={link.text} onChange={txt => dispatch(updateTask({ ...task, link: { ...link, text: txt } }))} />
-            <TextField label="Link URL" value={link.url} onChange={txt => dispatch(updateTask({ ...task, link: { ...link, url: txt } }))} />
+            <FormControl>
+                <FormControl.Label>Link Text</FormControl.Label>
+                <TextInput value={link.text} onChange={evt => dispatch(updateTask({ ...task, link: { ...link, text: evt.target.value } }))} />
+            </FormControl>
+            <FormControl>
+                <FormControl.Label>Link URL</FormControl.Label>
+                <TextInput value={link.url} onChange={evt => dispatch(updateTask({ ...task, link: { ...link, url: evt.target.value } }))} />
+            </FormControl>
         </div>
     }
 
@@ -43,7 +48,10 @@ export function TaskControls() {
             <Textarea block={true} onChange={evt => dispatch(updateTask({ ...task, text: evt.target.value }))} value={task.text} rows={2} />
         </FormControl>
         <hr />
-        <CheckboxField label="Has a link" checked={link != undefined} onChange={checked => dispatch(updateTask({ ...task, link: checked ? { text: "text", url: "link" } : undefined }))} />
+        <FormControl>
+            <FormControl.Label>Has a Link</FormControl.Label>
+            <Checkbox checked={link != undefined} onChange={checked => dispatch(updateTask({ ...task, link: checked ? { text: "text", url: "link" } : undefined }))}/>
+        </FormControl>
         {linkElem}
         <hr />
         <Dropdown

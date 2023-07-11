@@ -1,12 +1,11 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTask, exportGraph, RootState, setTitle, setViewMode, sort, updateSaveDialog } from "../state/store";
-import { ButtonIcon } from "./bulma";
 import { StatusesModal } from "./status.modal";
 import { downloadSvg } from "../util/svg-to-image";
 import { ImportButton } from "./import.button";
 import { Autosave } from "./autosave";
-import { ActionList, ActionMenu, Avatar, Button, Header, Octicon, TextInput } from "@primer/react";
+import { ActionList, ActionMenu, Button, Header, TextInput } from "@primer/react";
 import { PlusCircleIcon } from "@primer/octicons-react";
 
 

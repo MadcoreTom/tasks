@@ -1,9 +1,9 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { TextArea } from "../components/bulma";
 import { TaskType } from "../diagram/task";
 import { RootState, select, SelectedType, updateTask } from "../state/store";
 import { Dropdown } from "../components/dropdown";
+import { FormControl, Textarea } from "@primer/react";
 
 export function TableMode() {
     const tasks = useSelector((state: RootState) => state.main.tasks);
@@ -54,7 +54,10 @@ function TableRowEditable(task: TaskType, idx: number) {
     const dispatch = useDispatch();
     return <tr key={idx} className="hide-labels">
         <td>
-            <TextArea rows={1} label="Task name" value={task.text} onChange={txt => dispatch(updateTask({ ...task, text: txt }))} />
+            <FormControl>
+                <FormControl.Label>Link Text</FormControl.Label>
+                <Textarea rows={1} value={task.text} onChange={evt => dispatch(updateTask({ ...task, text: evt.target.value }))} />
+            </FormControl>
         </td>
         <td>{task.link ? task.link.text : null}</td>
         <td>
