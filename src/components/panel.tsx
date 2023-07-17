@@ -22,6 +22,7 @@ export function HeaderBar(): any {
                 <span className="app-name">Tasks</span>
             </Header.Item>
         </Header.Item>
+        <Header.Item full></Header.Item>
         <HeaderFileName title={title} setTitle={t => dispatch(setTitle(t))} />
         <Header.Item full></Header.Item>
         <Header.Item>
@@ -84,6 +85,6 @@ function HeaderFileName(props: { title: string, setTitle: (title: string) => voi
                 onBlur={() => setRenaming(false)} />
         </Header.Item>;
     } else {
-        return <Header.Item onClick={() => setRenaming(true)} sx={{ cursor: "cell" }}>"{props.title}"</Header.Item>
+        return <Header.Item onClick={() => setRenaming(true)} sx={{ cursor: "cell", borderBottom: "2px solid grey" }}>"{props.title}"</Header.Item>
     }
 }

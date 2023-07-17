@@ -2,9 +2,11 @@ import * as React from "react";
 import { useDispatch } from "react-redux";
 import { importGraph } from "../state/store";
 import { Button } from "@primer/react";
+import { UploadIcon } from "@primer/octicons-react";
 
 export function ImportButton() {
     const dispatch = useDispatch();
+    const ref = React.useRef();
 
     function importFunc(evt) {
         loadFile(evt, data => {
@@ -14,7 +16,12 @@ export function ImportButton() {
         });
     }
 
-    return <Button as="Input" className="file-input" type="file" name="resume" onChange={importFunc}>Import File</Button>
+    return <span>
+        <input type="file" ref={ref} onChange={importFunc} style={{display:"none"}}/>
+        <Button onClick={()=>{ (ref.current as HTMLInputElement).click()}}><UploadIcon/> Upload</Button>
+    </span>
+
+    // return <Button as="Input" className="file-input" type="file" name="resume" onChange={importFunc}>Import File</Button>
 }
 
 
